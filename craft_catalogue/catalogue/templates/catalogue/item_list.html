@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Search Input -->
+<!-- <input type="text" id="search-bar" class="form-control" placeholder="Search Items..."> -->
+
+<!-- Container for Items and Details -->
+<div class="container mt-4">
+    <div class="row">
+        <!-- Item List (Left Side) -->
+        <div class="col-md-4">
+            <div id="item-container" class="row">
+                {% for item in item_list %}
+                <div class="col-md-3 col-sm-3 col-3 mb-3 item" data-slug="{{ item.slug }}" onclick="loadItemDetails('{{ item.slug }}')">
+                    <div class="card">
+                        <img src="{{ item.picture.url }}" alt="{{ item.name }}" class="card-img-top">
+                        <div class="card-body">
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <p>No items found.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-1">
+          
+        </div>
+ 
+        <!-- Item Details (Right Side) -->
+        <div class="col-md-7" style="text-align: center;">
+            <div id="item-details">
+                <h5>Click an item to see details</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- JavaScript for Dynamic Item Details and Filtering -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedItemSlug = urlParams.get('selected_item') || urlParams.get('item'); // Handle both cases
+
+    const itemContainer = document.getElementById('item-container');
+    if (!itemContainer) return;
+
+    const items = Array.from(itemContainer.getElementsByClassName('item'));
+
+    if (selectedItemSlug) {
+        const selectedItem = items.find(item => item.dataset.slug === selectedItemSlug);
+        if (selectedItem) {
+            selectedItem.classList.add('selected');
+            setTimeout(() => selectedItem.classList.remove('selected'), 2000);
+            loadItemDetails(selectedItemSlug);
+        }
+    }
+
+    items.forEach(item => {
+        item.addEventListener('click', function() {
+            const slug = this.dataset.slug;
+            loadItemDetails(slug);
+            history.pushState({}, '', `?selected_item=${slug}`); // Update URL without reloading
+        });
+    });
+});
+
+function loadItemDetails(slug) {
+    fetch(`/items/${slug}/`)
+        .then(response => response.json())
+        .then(data => {
+            let pokemonList = '';
+            if (data.recommended_pokemon.length > 0) {
+                pokemonList = '<h5>Recommended for:</h5><div class="row">';
+                data.recommended_pokemon.forEach(pokemon => {
+                    pokemonList += `
+                        <div class="col-md-2 col-sm-4 col-4 mb-3">
+                            <a href="/pokemon/${pokemon.slug}/">
+                                <img src="${pokemon.image_url}" alt="${pokemon.name}" class="img-fluid">
+                                <p>${pokemon.name}</p>
+                            </a>
+                        </div>
+                    `;
+                });
+                pokemonList += '</div>';
+            }
+
+            document.getElementById("item-details").innerHTML = `
+                <h5>${data.name}</h5>
+                <img src="${data.image_url}" alt="${data.name}" width="100">
+                <p>${data.description}</p>
+                ${pokemonList}
+            `;
+        })
+        .catch(error => console.error('Error fetching item details:', error));
+}
+
+
+</script>
+
+<style>
+    .card-body {
+        padding: 0 !important;
+    }
+
+</style>
+
+{% endblock %}

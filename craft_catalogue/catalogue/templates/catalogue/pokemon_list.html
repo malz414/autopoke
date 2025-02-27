@@ -1,0 +1,293 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Filter Sidebar -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Filter Options</h5>
+
+                    <!-- Rank Filter -->
+                    <h6>Filter by Rank</h6>
+                    <ul class="list-unstyled">
+                        {% for rank in "1234" %}
+                        <li>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input rank-filter" id="rank-{{ rank }}" data-rank="{{ rank }}">
+                                <label class="form-check-label" for="rank-{{ rank }}">Rank {{ rank }}</label>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                                                <!-- Synergy Filter -->
+                                                <h6>Filter by Synergy</h6>
+                                                <ul class="list-unstyled">
+                                                    {% for synergy in synergies %}
+                                                    <li>
+                                                        <div class="form-check">
+                                                            <input type="checkbox" 
+                                                                   class="form-check-input synergy-filter" 
+                                                                   id="synergy-{{ synergy.name|slugify }}" 
+                                                                   data-synergy="{{ synergy.name|lower }}">  <!-- Lowercase here -->
+                                                            <label class="form-check-label">{{ synergy.name }}</label>
+                                                        </div>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                    <!-- Sorting Option -->
+                    <h6>Sort By</h6>
+                    <select id="sort-by" class="form-select">
+             
+                        <option value="rank-asc">Rank Ascending</option>
+                        <option value="rank-desc">Rank Descending</option>
+                        <option value="name-asc">Name A-Z</option>
+                        <option value="name-desc">Name Z-A</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="row mb-3">
+                <!-- Synergy Dropdown and Search Bar -->
+            
+                <div class="col-md-12">
+                    <input type="text" id="search-bar" class="form-control" placeholder="Search Pokémon...">
+                </div>
+            </div>
+
+            <!-- Pokémon List -->
+            <div id="pokemon-list" class="row">
+                {% for pokemon in pokemon_list %}
+                <div class="col-md-3 col-sm-4 col-6 mb-3 pokemon-card" 
+                    data-rank="{{ pokemon.rank }}" 
+                    data-name="{{ pokemon.name }}" 
+                    data-synergies="{% for s in pokemon.synergies.all %}{{ s.name|lower }}{% if not forloop.last %},{% endif %}{% endfor %}" 
+                    data-alternate-names="{{ pokemon.alternate_names }}">
+           <div class="card text-decoration-none text-reset pokemon-card-container">
+                        <a href="{% url 'pokemon_detail' pokemon.slug %}" class="card-body text-center">
+                            <h5 class="card-title">{{ pokemon.name }}</h5>
+                            {% if pokemon.images.all %}
+                                <img src="{{ pokemon.images.first.image.url }}" alt="{{ pokemon.name }}" class="img-fluid">
+                            {% else %}
+                                <p>No image available</p>
+                            {% endif %}
+                        </a>
+                        <div class="tooltip-container">
+                            <p>Rank: {{ pokemon.rank }}</p>
+                            <p>Synergies:</p>
+                            <div class="synergy-images">
+                                {% for synergy in pokemon.synergies.all %}
+                                    <a href="{% url 'synergy_list' %}?selected_synergy={{ synergy.slug }}" 
+                                    class="tooltip-link" 
+                                    data-link-type="synergy">
+                                        <img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}" class="tooltip-image" style="width: 40px; height: 40px;">
+                                    </a>
+
+                                {% empty %}
+                                    <p>No synergies available</p>
+                                {% endfor %}
+                            </div>
+                            <p>Recommended Items:</p>
+                                     <div class="item-images">
+                                {% for item in pokemon.recommended_items.all %}
+                                    <a href="{% url 'item_list' %}?item={{ item.slug }}" 
+                                    class="tooltip-link" 
+                                    data-link-type="item">
+                                        <img src="{{ item.picture.url }}" alt="{{ item.name }}" class="tooltip-image" style="width: 40px; height: 40px;">
+                                    </a>
+                                {% empty %}
+                                    <p>No recommended items available</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">No Pokémon found.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchBar = document.getElementById('search-bar');
+    const rankCheckboxes = document.querySelectorAll('input[type="checkbox"][data-rank]');
+    const synergyCheckboxes = document.querySelectorAll('input[type="checkbox"][data-synergy]');
+    const sortBy = document.getElementById('sort-by');
+    const pokemonList = document.getElementById('pokemon-list');
+
+    function sortAndFilterPokemon() {
+        const query = searchBar.value.toLowerCase();
+        const selectedRanks = Array.from(rankCheckboxes)
+                                .filter(checkbox => checkbox.checked)
+                                .map(checkbox => checkbox.dataset.rank);
+        const selectedSynergies = Array.from(synergyCheckboxes)
+                                .filter(checkbox => checkbox.checked)
+                                .map(checkbox => checkbox.dataset.synergy.toLowerCase().trim());
+        const sortOrder = sortBy.value;
+        
+        // Get current items from DOM
+        let pokemonItems = Array.from(pokemonList.getElementsByClassName('pokemon-card'));
+    
+        // Sort the items according to the selected sorting option
+        pokemonItems.sort((a, b) => {
+            const rankA = parseInt(a.dataset.rank);
+            const rankB = parseInt(b.dataset.rank);
+            const nameA = a.dataset.name.toLowerCase();
+            const nameB = b.dataset.name.toLowerCase();
+            
+            if (sortOrder === 'rank-asc') return rankA - rankB;
+            if (sortOrder === 'rank-desc') return rankB - rankA;
+            if (sortOrder === 'name-asc') return nameA.localeCompare(nameB);
+            if (sortOrder === 'name-desc') return nameB.localeCompare(nameA);
+            return 0;
+        });
+        
+        // Re-append sorted items to the container to update DOM order
+        pokemonItems.forEach(item => {
+            pokemonList.appendChild(item);
+        });
+    
+        // Filter items based on search query, rank checkboxes, and synergy checkboxes
+        pokemonItems.forEach(item => {
+            const pokemonName = item.querySelector('.card-title').textContent.toLowerCase();
+            const alternateNames = (item.dataset.alternateNames || "").toLowerCase().split(',');
+            const pokemonRank = item.dataset.rank;
+
+            // Define pokemonSynergies inside the loop where `item` is accessible
+            const pokemonSynergies = (item.dataset.synergies || "")
+                .toLowerCase()
+                .split(',')         // Split by comma (no space)
+                .map(s => s.trim()) // Trim whitespace
+                .filter(s => s);    // Remove empty strings
+
+            const matchesQuery = pokemonName.includes(query) || alternateNames.some(name => name.includes(query));
+            const matchesRank = selectedRanks.length === 0 || selectedRanks.includes(pokemonRank);
+            const matchesSynergy = selectedSynergies.length === 0 || 
+                selectedSynergies.some(synergy => pokemonSynergies.includes(synergy.toLowerCase().trim()));
+
+            // Debugging: Log values for each Pokémon
+            console.log("Pokemon:", pokemonName);
+            console.log("Pokemon Synergies:", pokemonSynergies);
+            console.log("Selected Synergies:", selectedSynergies);
+            console.log("Matches Synergy:", matchesSynergy);
+
+            item.style.display = matchesQuery && matchesRank && matchesSynergy ? 'flex' : 'none';
+        });
+    
+        // Adjust card heights to match the tallest visible card
+        const visibleItems = pokemonItems.filter(item => item.style.display !== 'none');
+        const maxHeight = visibleItems.length > 0 ? Math.max(...visibleItems.map(item => item.offsetHeight)) : 0;
+        visibleItems.forEach(item => {
+            item.style.height = maxHeight + 'px';
+        });
+    }
+    
+    searchBar.addEventListener('input', sortAndFilterPokemon);
+    rankCheckboxes.forEach(checkbox => checkbox.addEventListener('change', sortAndFilterPokemon));
+    synergyCheckboxes.forEach(checkbox => checkbox.addEventListener('change', sortAndFilterPokemon));
+    sortBy.addEventListener('change', sortAndFilterPokemon);
+    
+    // Tooltip functionality
+    document.querySelectorAll('.pokemon-card-container').forEach(card => {
+        card.addEventListener('mouseover', function() {
+            this.querySelector('.tooltip-container').style.display = 'block';
+        });
+        card.addEventListener('mouseout', function() {
+            this.querySelector('.tooltip-container').style.display = 'none';
+        });
+    });
+    
+    // Highlight selected item (tooltip links)
+  document.querySelectorAll('.tooltip-link').forEach(link => {
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
+        const slug = this.getAttribute('href').split('=')[1];
+        const listUrl = this.getAttribute('href').split('?')[0];
+        const linkType = this.getAttribute('data-link-type'); // Add this attribute to your links
+
+        if (linkType === 'synergy') {
+            const selectedItem = document.querySelector(`.synergy[data-slug="${slug}"]`);
+            if (selectedItem) {
+                selectedItem.classList.add('selected');
+                setTimeout(() => selectedItem.classList.remove('selected'), 2000);
+            }
+            window.location.href = `${listUrl}?selected_synergy=${slug}`;
+        } else if (linkType === 'item') {
+            const selectedItem = document.querySelector(`.item[data-slug="${slug}"]`);
+            if (selectedItem) {
+                selectedItem.classList.add('selected');
+                setTimeout(() => selectedItem.classList.remove('selected'), 2000);
+            }
+            window.location.href = `${listUrl}?item=${slug}`;
+        }
+    });
+});
+    // Initial call
+    sortAndFilterPokemon();
+});
+</script>
+
+<style>
+    /* Ensure the card container uses flexbox */
+    #pokemon-list {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .pokemon-card .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border-width: 3px !important;
+    }
+    
+    .pokemon-card img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .pokemon-card .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .tooltip-link {
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .tooltip-link:hover,
+    .tooltip-link:focus {
+        outline: none;
+        text-decoration: none;
+    }
+    
+    .tooltip-container {
+        display: none;
+        position: absolute;
+        top: -75%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 10;
+        white-space: nowrap;
+    }
+    
+    .pokemon-card-container:hover .tooltip-container {
+        display: block;
+    }
+</style>
+
+{% endblock %}

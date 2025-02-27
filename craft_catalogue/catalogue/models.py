@@ -1,0 +1,140 @@
+from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.utils.text import slugify
+
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)  # Example custom field
+    bio = models.TextField(blank=True)  # Example custom field
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)  # Example custom field
+
+    def __str__(self):
+        return self.username
+
+
+# class Artist(models.Model):
+#     name = models.CharField(max_length=255)
+#     bio = models.TextField(blank=True)
+#     profile_picture = models.ImageField(upload_to='artists/', blank=True, null=True)
+#     email = models.EmailField(unique=True)
+#     phone_number = models.CharField(max_length=15, blank=True)
+#     website = models.URLField(blank=True)
+#     social_media_links = models.JSONField(blank=True, null=True)
+#     location = models.CharField(max_length=255, blank=True)
+#     date_joined = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return self.name
+
+
+class Pokemon(models.Model): 
+    name = models.CharField(max_length=255, unique=True)
+    slug = models.SlugField(unique=True, blank=True)
+
+    attack = models.IntegerField(blank=True, default="")
+    defense = models.IntegerField(blank=True, default="")
+    special_attack = models.IntegerField(blank=True, default="")
+    special_defense = models.IntegerField(blank=True, default="")
+    attack_speed = models.DecimalField(max_digits=5, decimal_places=2,null=True)
+    critical_hit_rate = models.IntegerField(help_text="Percentage value (e.g., 10 for 10%)", blank=True, default="")
+    critical_hit_damage_bonus_rate = models.IntegerField(help_text="Percentage value (e.g., 20 for 20%)", blank=True, default="")
+    #TODo Should change ranks to be ints
+    rank = models.CharField(max_length=50)
+    tier = models.CharField(max_length=50)
+
+    # Stats per level (could be a JSONField or a separate model)
+    stats_per_level = models.JSONField(blank=True, null=True)
+
+    # Abilities
+    ability_1_name = models.CharField(max_length=255, blank=True)
+    ability_1_description = models.TextField(blank=True)
+    ability_2_name = models.CharField(max_length=255, blank=True)
+    ability_2_description = models.TextField(blank=True)
+
+    # Unite Move
+    unite_move_name = models.CharField(max_length=255, blank=True)
+    unite_move_description = models.TextField(blank=True)
+    unite_move_activation = models.TextField(blank=True, default="")
+    # Recommended items (ManyToManyField to the CraftItem model or a new Item model)
+    recommended_items = models.ManyToManyField('Item', blank=True)
+       # Alternate names
+   
+    alternate_names = models.TextField(blank=True, default="")
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs) 
+
+    def __str__(self):
+        return self.name
+
+
+class LevelStats(models.Model):
+    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE, related_name='level_stats')
+    level = models.IntegerField()
+    attack = models.IntegerField()
+    defense = models.IntegerField()
+    special_attack = models.IntegerField()
+    special_defense = models.IntegerField()
+    attack_speed = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return f"Level {self.level} stats for {self.pokemon.name}"
+    
+class PokemonImage(models.Model):
+    pokemon = models.ForeignKey(Pokemon, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='pokemon_images/')
+    caption = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f"Image for {self.pokemon.name}"
+    
+from django.utils.text import slugify
+
+class Item(models.Model):
+    picture = models.ImageField(upload_to='items/')
+    name = models.CharField(max_length=255, unique=True) 
+    description = models.TextField()
+    synergistic_pokemon = models.ManyToManyField('Pokemon', blank=True, related_name='synergistic_items')
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+class Synergy(models.Model):
+    picture = models.ImageField(upload_to='synergies/')
+    name = models.CharField(max_length=255, unique=True) 
+    pokemon = models.ManyToManyField('Pokemon', blank=True, related_name='synergies')
+    descriptions = models.TextField()
+    slug = models.SlugField(unique=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+# class CartItem(models.Model):
+#     cart = models.ForeignKey('Cart', on_delete=models.CASCADE, related_name='cart_items')
+#     item = models.ForeignKey(CraftItem, on_delete=models.CASCADE)
+#     quantity = models.PositiveIntegerField(default=1)
+
+#     @property
+#     def total_price(self):
+#         return self.quantity * self.item.price
+
+# class Cart(models.Model):
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     user = models.ForeignKey('catalogue.CustomUser', null=True, blank=True, on_delete=models.SET_NULL)
+    
+#     def total_price(self):
+#         return sum(cart_item.total_price for cart_item in self.cart_items.all())
+
+#     def __str__(self):
+#         return f"Cart {self.id} for {self.user.username if self.user else 'Guest'}"

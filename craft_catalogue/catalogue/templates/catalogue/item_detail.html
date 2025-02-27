@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ item.name }}</h1>
+<img src="{{ item.picture.url }}" alt="{{ item.name }}">
+
+<p>{{ item.description }}</p>
+
+<h2>Synergistic Pokémon</h2>
+<ul>
+    {% for pokemon in item.synergistic_pokemon.all %}
+    <li>{{ pokemon.name }}</li>
+    {% empty %}
+    <li>No synergistic Pokémon found for this item.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

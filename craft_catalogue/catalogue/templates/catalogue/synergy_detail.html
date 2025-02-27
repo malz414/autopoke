@@ -1,0 +1,16 @@
+<!-- synergy_detail.html -->
+<h1>{{ synergy.name }}</h1>
+<img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}">
+
+<p>{{ synergy.descriptions }}</p>
+
+<h2>Pokémon</h2>
+<ul>
+    {% for pokemon in synergy.pokemon.all %}
+    <li>
+        <a href="{% url 'pokemon_detail' pokemon.name %}">{{ pokemon.name }}</a>
+    </li>
+    {% empty %}
+    <li>No Pokémon found for this synergy.</li>
+    {% endfor %}
+</ul>

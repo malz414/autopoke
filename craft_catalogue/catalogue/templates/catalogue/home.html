@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center">
+    <h1>Welcome to the Pokémon Site!</h1>
+    <p class="lead">Explore Pokémon, items, and synergies to build your ultimate team.</p>
+
+    <!-- Featured Pokémon, Item, and Synergy in a Single Row -->
+    <h2>Featured</h2>
+    <div class="row d-flex">
+        <!-- Featured Pokémon -->
+        <div class="col-md-4 d-flex">
+            {% if featured_pokemon %}
+            <div class="card mb-4 flex-fill">
+                <a href="{% url 'pokemon_detail' featured_pokemon.0.slug %}">
+                    {% if featured_pokemon.0.images.all %}
+                        <img src="{{ featured_pokemon.0.images.first.image.url }}" class="card-img-top" alt="{{ featured_pokemon.0.name }}" style="height: 150px; object-fit: contain;">
+                    {% else %}
+                        <p class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 150px;">No image available</p>
+                    {% endif %}
+                </a>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ featured_pokemon.0.name }}</h5>
+                    <p class="card-text flex-grow-1">{{ featured_pokemon.0.description|truncatechars:100 }}</p>
+                    <!-- Synergies and Recommended Items Section -->
+
+   
+
+                    <a href="{% url 'pokemon_detail' featured_pokemon.0.slug %}" class="btn btn-primary btn-sm mt-auto">View Details</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Featured Item -->
+        <div class="col-md-4 d-flex">
+            {% if featured_items %}
+            <div class="card mb-4 flex-fill">
+                <a href="{% url 'item_list' %}?selected_item={{ featured_items.0.slug  }}">
+                    <img src="{{ featured_items.0.picture.url }}" class="card-img-top" alt="{{ featured_items.0.name }}" style="height: 150px; object-fit: contain;">
+                </a>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ featured_items.0.name }}</h5>
+                  
+                    <a href="{% url 'item_list' %}?selected_item={{ featured_items.0.slug  }}" class="btn btn-primary btn-sm mt-auto">View Details</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Featured Synergy -->
+        <div class="col-md-4 d-flex">
+            {% if featured_synergies %}
+            <div class="card mb-4 flex-fill">
+                <a href="{% url 'synergy_list' %}?selected_synergy={{ featured_synergies.0.slug }}">
+                    <img src="{{ featured_synergies.0.picture.url }}" class="card-img-top" alt="{{ featured_synergies.0.name }}" style="height: 150px; object-fit: contain;">
+                </a>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ featured_synergies.0.name }}</h5>
+                 
+                    <a href="{% url 'synergy_list' %}?selected_synergy={{ featured_synergies.0.slug }}" class="btn btn-primary btn-sm mt-auto">View Details</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

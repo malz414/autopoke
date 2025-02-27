@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pokémon Site</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">Pokémon Site</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'pokemon_list' %}">Pokémon</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'item_list' %}">Items</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'synergy_list' %}">Synergies</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    
+    
+    <!-- Content Block -->
+    <div class="container  mt-4">
+        {% block content %}{% endblock %}
+    </div>
+
+  <!-- Footer -->
+<footer class="bg-light text-center py-3 mt-5">
+    <p class="p0">Site made by: malz<br>
+        Information from:
+        <a href="https://x.com/ribbonchu?lang=en" target="_blank">Ribbonchu</a>/<a href="https://www.youtube.com/@Joshawott302" target="_blank">Joshawott302</a>
+    </p>
+    <p>Contact: <a href="mailto:maliquedonawa@gmail.com">maliquedonawa@gmail.com</a></p>
+    <p>This is a fan site and is not affiliated with Pokemon Unite, the Pokemon Company, nor the developers nor any rights holders of the game.</p>
+    <p class="mb-0">&copy; 2025 Name Pending.</p>
+</footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+</body>
+</html>
