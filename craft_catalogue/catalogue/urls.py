@@ -28,7 +28,8 @@ urlpatterns = [
 
     path('pokemon/<slug:pokemon_slug>/', views.pokemon_detail, name='pokemon_detail'),
     path('item/<slug:item_slug>/', views.item_detail, name='item_detail'),
-     path('synergies/<slug:slug>/', views.synergy_detail_json, name='synergy_detail_json'),
+    path('synergies/<slug:slug>/', views.synergy_detail_json, name='synergy_detail_json'),
+    path('installation/', views.installation, name='installation'),
     
     # HTML view for synergy details (if needed elsewhere)
     path('synergy/<slug:slug>/', views.synergy_detail, name='synergy_detail'),

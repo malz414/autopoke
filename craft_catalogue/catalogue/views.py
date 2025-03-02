@@ -103,6 +103,19 @@ def synergy_detail(request, slug):
     synergy = get_object_or_404(Synergy, slug=slug)
     return render(request, 'catalogue/synergy_detail.html', {'synergy': synergy})
 
+def installation(request):
+    # You can pass any context data to the template if needed
+    context = {
+        'title': 'Installation Guide',
+        'steps': [
+            'Step 1: Download the software.',
+            'Step 2: Run the installer.',
+            'Step 3: Follow the on-screen instructions.',
+        ]
+    }
+    return render(request, 'catalogue/installation.html', context)
+
+
 def synergy_list(request):
     query = request.GET.get('q', '')  # Get search query
     synergy_list = Synergy.objects.all()

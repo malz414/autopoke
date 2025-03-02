@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Pokémon Site</title>
+    <title>Autopoké</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -14,7 +14,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}">Pokémon Site</a>
+            <a class="navbar-brand" href="{% url 'home' %}">Autopoké</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -32,6 +32,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'synergy_list' %}">Synergies</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'installation' %}">How to install</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -44,16 +47,29 @@
         {% block content %}{% endblock %}
     </div>
 
-  <!-- Footer -->
-<footer class="bg-light text-center py-3 mt-5">
-    <p class="p0">Site made by: malz<br>
-        Information from:
-        <a href="https://x.com/ribbonchu?lang=en" target="_blank">Ribbonchu</a>/<a href="https://www.youtube.com/@Joshawott302" target="_blank">Joshawott302</a>
-    </p>
-    <p> <a href="mailto:maliquedonawa@gmail.com">Contact</a></p>
-    <p>This is a fan site and is not affiliated with Pokemon Unite, the Pokemon Company, nor the developers nor any rights holders of the game.</p>
-    <p class="mb-0">&copy; 2025 Autopoke.</p>
+<!-- Footer -->
+<footer class="bg-light text-center text-md-center py-3 mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- Featured Pokémon -->
+            <div class="col-md-4 mb-3 mb-md-0">
+                <p class="mb-0">Site made by: malz<br>
+                    <p class="mb-0"><a href="mailto:maliquedonawa@gmail.com">Contact</a></p>
+                    Information from:
+                    <a href="https://x.com/ribbonchu?lang=en" target="_blank">Ribbonchu</a>/<a href="https://www.youtube.com/@Joshawott302" target="_blank">Joshawott302</a>
+                </p>
+            </div>
+
+            <div class="col-md-8 mb-3 mb-md-0">
+                <p class="mb-0">&copy; 2025 Autopoke.</p>
+                <p class="mb-0">This is a fan site and is not affiliated with Pokemon Unite, the Pokemon Company, nor the developers nor any rights holders of the game.</p>
+            </div>
+
+       
+        </div>
+    </div>
 </footer>
+
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

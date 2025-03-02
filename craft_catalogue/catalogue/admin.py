@@ -10,23 +10,25 @@ class PokemonImageInline(admin.TabularInline):
 class PokemonAdmin(admin.ModelAdmin):
     inlines = [PokemonImageInline]  # Include inline images
     list_display = ('name', 'rank', 'tier')
-    filter_horizontal = ('recommended_items',)  
+    filter_horizontal = ('recommended_items',)
 
     fieldsets = (
         (None, {
-            'fields': ('name','alternate_names', 'attack', 'defense', 'special_attack', 'special_defense', 'attack_speed', 'critical_hit_rate', 'critical_hit_damage_bonus_rate', 'rank', 'tier', 'stats_per_level')
+            'fields': ('name', 'alternate_names', 'attack', 'defense', 'special_attack', 'special_defense', 'attack_speed', 'critical_hit_rate', 'critical_hit_damage_bonus_rate', 'rank', 'tier', 'stats_per_level')
         }),
         ('Abilities', {
-            'fields': ('ability_1_name', 'ability_1_description', 'ability_2_name', 'ability_2_description'),
+            'fields': ('ability_1_name', 'ability_1_description', 'ability_1_picture', 'ability_2_name', 'ability_2_description', 'ability_2_picture'),
         }),
         ('Unite Move', {
-            'fields': ('unite_move_name', 'unite_move_description', 'unite_move_activation'),
+            'fields': ('unite_move_name', 'unite_move_description', 'unite_move_activation', 'unite_move_picture'),
         }),
         ('Recommended Items', {
-            'fields': ('recommended_items',),
+            'fields': ('recommended_items', 'recommended_number'),
+        }),
+        ('HP/MP', {
+            'fields': ('hp', 'mp'),
         }),
     )
-
 
 class SynergyAdmin(admin.ModelAdmin):
     list_display = ('name', 'descriptions')

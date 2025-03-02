@@ -26,47 +26,55 @@ class CustomUser(AbstractUser):
 #         return self.name
 
 
-class Pokemon(models.Model): 
+from django.db import models
+from django.utils.text import slugify
+
+class Pokemon(models.Model):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(unique=True, blank=True)
 
-    attack = models.IntegerField(blank=True, default="")
-    defense = models.IntegerField(blank=True, default="")
-    special_attack = models.IntegerField(blank=True, default="")
-    special_defense = models.IntegerField(blank=True, default="")
-    attack_speed = models.DecimalField(max_digits=5, decimal_places=2,null=True)
-    critical_hit_rate = models.IntegerField(help_text="Percentage value (e.g., 10 for 10%)", blank=True, default="")
-    critical_hit_damage_bonus_rate = models.IntegerField(help_text="Percentage value (e.g., 20 for 20%)", blank=True, default="")
-    #TODo Should change ranks to be ints
-    rank = models.CharField(max_length=50)
-    tier = models.CharField(max_length=50)
+    attack = models.IntegerField(blank=True, default=0)
+    defense = models.IntegerField(blank=True, default=0)
+    special_attack = models.IntegerField(blank=True, default=0)
+    special_defense = models.IntegerField(blank=True, default=0)
+    attack_speed = models.DecimalField(max_digits=5, decimal_places=2, null=True)
+    critical_hit_rate = models.IntegerField(help_text="Percentage value (e.g., 10 for 10%)", blank=True, default=0)
+    critical_hit_damage_bonus_rate = models.IntegerField(help_text="Percentage value (e.g., 20 for 20%)", blank=True, default=0)
 
-    # Stats per level (could be a JSONField or a separate model)
+    rank = models.IntegerField(blank=True, null=True)
+    tier = models.IntegerField(blank=True, null=True)
+
     stats_per_level = models.JSONField(blank=True, null=True)
 
-    # Abilities
     ability_1_name = models.CharField(max_length=255, blank=True)
     ability_1_description = models.TextField(blank=True)
+    ability_1_picture = models.ImageField(upload_to='ability_pictures/', blank=True, null=True)  # New field for ability 1 picture
+
     ability_2_name = models.CharField(max_length=255, blank=True)
     ability_2_description = models.TextField(blank=True)
+    ability_2_picture = models.ImageField(upload_to='ability_pictures/', blank=True, null=True)  # New field for ability 2 picture
 
-    # Unite Move
     unite_move_name = models.CharField(max_length=255, blank=True)
     unite_move_description = models.TextField(blank=True)
     unite_move_activation = models.TextField(blank=True, default="")
-    # Recommended items (ManyToManyField to the CraftItem model or a new Item model)
+    unite_move_picture = models.ImageField(upload_to='move_pictures/', blank=True, null=True)
+
     recommended_items = models.ManyToManyField('Item', blank=True)
-       # Alternate names
-   
+    recommended_number = models.PositiveSmallIntegerField(choices=[(1, '1'), (2, '2')], default=1)
+
     alternate_names = models.TextField(blank=True, default="")
-    
+
+    hp = models.IntegerField(blank=True, null=True)
+    mp = models.IntegerField(blank=True, null=True)
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
-        super().save(*args, **kwargs) 
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
+
 
 
 class LevelStats(models.Model):
