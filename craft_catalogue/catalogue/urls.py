@@ -30,6 +30,7 @@ urlpatterns = [
     path('item/<slug:item_slug>/', views.item_detail, name='item_detail'),
     path('synergies/<slug:slug>/', views.synergy_detail_json, name='synergy_detail_json'),
     path('installation/', views.installation, name='installation'),
+     path('tier_list/', views.tier_list, name='tier_list'),
     
     # HTML view for synergy details (if needed elsewhere)
     path('synergy/<slug:slug>/', views.synergy_detail, name='synergy_detail'),

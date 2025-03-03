@@ -115,6 +115,15 @@ def installation(request):
     }
     return render(request, 'catalogue/installation.html', context)
 
+def tier_list(request):
+    tiers = [("S", 1), ("A", 2), ("B", 3), ("C", 4)]  # Define your tiers with names and numbers
+    pokemon_list = Pokemon.objects.all()  # Retrieve all Pokémon objects
+    context = {"tiers": tiers, "pokemon_list": pokemon_list}
+    return render(request, "catalogue/tier_list.html", context)
+
+
+
+
 
 def synergy_list(request):
     query = request.GET.get('q', '')  # Get search query
@@ -135,9 +144,9 @@ def pokemon_detail(request, pokemon_slug):
 
 def home(request):
     # Fetch some featured Pokémon, items, and synergies for the home page
-    featured_pokemon = Pokemon.objects.all()[:3]  # Display the first 3 Pokémon
-    featured_items = Item.objects.all()[:3]  # Display the first 3 items
-    featured_synergies = Synergy.objects.all()[:3]  # Display the first 3 synergies
+    featured_pokemon = Pokemon.objects.all()  # Display the first 3 Pokémon
+    featured_items = Item.objects.all() # Display the first 3 items
+    featured_synergies = Synergy.objects.all() # Display the first 3 synergies
 
     context = {
         'featured_pokemon': featured_pokemon,

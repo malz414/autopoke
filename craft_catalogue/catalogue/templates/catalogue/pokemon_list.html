@@ -77,27 +77,27 @@
                             {% endif %}
                         </a>
                         <div class="tooltip-container">
-                            <p>Rank: {{ pokemon.rank }}</p>
-                            <p>Synergies:</p>
+                            <p class="m-0 p-0">Rank: {{ pokemon.rank }}</p>
+                            <p class="m-0 p-0">Synergies:</p>
                             <div class="synergy-images">
                                 {% for synergy in pokemon.synergies.all %}
                                     <a href="{% url 'synergy_list' %}?selected_synergy={{ synergy.slug }}" 
                                     class="tooltip-link" 
                                     data-link-type="synergy">
-                                        <img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}" class="tooltip-image" style="width: 40px; height: 40px;">
+                                        <img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}" class="tooltip-image" style="width: 35px; height: 35px;">
                                     </a>
 
                                 {% empty %}
                                     <p>No synergies available</p>
                                 {% endfor %}
                             </div>
-                            <p>Recommended Items:</p>
+                            <p class="m-0 p-0">Recommended Items:</p>
                                      <div class="item-images">
                                 {% for item in pokemon.recommended_items.all %}
                                     <a href="{% url 'item_list' %}?item={{ item.slug }}" 
                                     class="tooltip-link" 
                                     data-link-type="item">
-                                        <img src="{{ item.picture.url }}" alt="{{ item.name }}" class="tooltip-image" style="width: 40px; height: 40px;">
+                                        <img src="{{ item.picture.url }}" alt="{{ item.name }}" class="tooltip-image" style="width: 35px; height: 35px;">
                                     </a>
                                 {% empty %}
                                     <p>No recommended items available</p>
@@ -270,20 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
         outline: none;
         text-decoration: none;
     }
-    
-    .tooltip-container {
-        display: none;
-        position: absolute;
-        top: -75% !important;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-        z-index: 10;
-        white-space: nowrap;
-    }
+
     
     .pokemon-card-container:hover .tooltip-container {
         display: block;

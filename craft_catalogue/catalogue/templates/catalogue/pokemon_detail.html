@@ -1,44 +1,68 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 style="text-align: left;">{{ pokemon.name }}</h1>
+<h1 style="text-align: center;">{{ pokemon.name }}</h1>
 
+<!-- Image and Thumbnails -->
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-12 col-md-5">
         {% if pokemon.images.all %}
-            <img src="{{ pokemon.images.first.image.url }}" alt="{{ pokemon.name }}" class="img-fluid">
+            <img id="main-image" src="{{ pokemon.images.first.image.url }}" alt="{{ pokemon.name }}" class="img-fluid">
+
+            <div class="mt-3 d-flex justify-content-center align-items-center text-center">
+                {% for image in pokemon.images.all reversed %}
+                    {% if not forloop.first %}<span class="mx-2">&rarr;</span>{% endif %}
+                    <img class="thumbnail-image" src="{{ image.image.url }}" alt="{{ pokemon.name }}" style="width: 75px; height: 75px; cursor: pointer;">
+                {% endfor %}
+            </div>
         {% else %}
             <p>No image available</p>
         {% endif %}
     </div>
-    <div class="col-md-1"></div>
+    <div class="col-12 col-md-1"></div>
+
     <!-- Abilities Section -->
-    <div class="col-md-6">
-        <h3>Moves</h3>
+    <div class="col-12 col-md-6">
+        <h3 class="text-center">Moves</h3>
         <ul class="list-group">
             {% if pokemon.ability_1_name %}
-                <li class="list-group-item">
-                    <strong>{{ pokemon.ability_1_name }}</strong>: {{ pokemon.ability_1_description }}
+                <li class="list-group-item d-flex align-items-center">
+                    {% if pokemon.ability_1_picture %}
+                        <img src="{{ pokemon.ability_1_picture.url }}" alt="{{ pokemon.ability_1_name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;">
+                    {% endif %}
+                    <div>
+                        <strong>{{ pokemon.ability_1_name }}</strong>: {{ pokemon.ability_1_description }}
+                    </div>
                 </li>
             {% else %}
                 <li class="list-group-item">No Ability 1 available.</li>
             {% endif %}
 
             {% if pokemon.ability_2_name %}
-                <li class="list-group-item">
-                    <strong>{{ pokemon.ability_2_name }}</strong>: {{ pokemon.ability_2_description }}
+                <li class="list-group-item d-flex align-items-center">
+                    {% if pokemon.ability_2_picture %}
+                        <img src="{{ pokemon.ability_2_picture.url }}" alt="{{ pokemon.ability_2_name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;">
+                    {% endif %}
+                    <div>
+                        <strong>{{ pokemon.ability_2_name }}</strong>: {{ pokemon.ability_2_description }}
+                    </div>
                 </li>
             {% else %}
                 <li class="list-group-item">No Ability 2 available.</li>
             {% endif %}
         </ul>
 
-        <h3 class="mt-4">Unite Move</h3>
+        <h3 class="mt-3 text-center">Unite Move</h3>
         <ul class="list-group">
             {% if pokemon.unite_move_name %}
-                <li class="list-group-item">
-                    <strong>{{ pokemon.unite_move_name }}</strong>: {{ pokemon.unite_move_description }}
-                    <br>Activates after {{ pokemon.unite_move_activation }}
+                <li class="list-group-item d-flex align-items-center">
+                    {% if pokemon.unite_move_picture %}
+                        <img src="{{ pokemon.unite_move_picture.url }}" alt="{{ pokemon.unite_move_name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;">
+                    {% endif %}
+                    <div>
+                        <strong>{{ pokemon.unite_move_name }}</strong>: {{ pokemon.unite_move_description }}
+                        <br>Activates after {{ pokemon.unite_move_activation }}
+                    </div>
                 </li>
             {% else %}
                 <li class="list-group-item">No Unite Move available.</li>
@@ -49,31 +73,47 @@
 
 <!-- Stats Section -->
 <div class="row mt-4">
-    <div class="col-md-12">
-        <h2>Base Stats</h2>
-        <ul class="list-group list-group-horizontal">
-            <li class="list-group-item">Attack: {{ pokemon.attack }}</li>
-            <li class="list-group-item">Defense: {{ pokemon.defense }}</li>
-            <li class="list-group-item">Special Attack: {{ pokemon.special_attack }}</li>
-            <li class="list-group-item">Special Defense: {{ pokemon.special_defense }}</li>
-            <li class="list-group-item">Attack Speed: {{ pokemon.attack_speed }}</li>
-            <li class="list-group-item">Critical Hit Rate: {{ pokemon.critical_hit_rate }}%</li>
-            <li class="list-group-item">Critical Hit Damage Bonus Rate: {{ pokemon.critical_hit_damage_bonus_rate }}%</li>
-        </ul>
+    <div class="col-12">
+        <h2 class="text-center">Base Stats</h2>
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <div class="list-group">
+                    <div class="list-group-item">Attack: {{ pokemon.attack }}</div>
+                    <div class="list-group-item">Defense: {{ pokemon.defense }}</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="list-group">
+                    <div class="list-group-item">Special Attack: {{ pokemon.special_attack }}</div>
+                    <div class="list-group-item">Special Defense: {{ pokemon.special_defense }}</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="list-group">
+                    <div class="list-group-item">Attack Speed: {{ pokemon.attack_speed }}</div>
+                    <div class="list-group-item">Critical Hit Rate: {{ pokemon.critical_hit_rate }}%</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="list-group">
+                    <div class="list-group-item">Critical Hit Bonus: {{ pokemon.critical_hit_damage_bonus_rate }}%</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Synergies and Recommended Items Section -->
 <div class="row mt-4">
-    <div class="col-md-6 col-6">
-        <h2>Synergies</h2>
+    <div class="col-12 col-md-6">
+        <h2 class="text-center">Synergies</h2>
         <ul class="list-group">
             {% for synergy in pokemon.synergies.all %}
-                <li class="list-group-item d-flex align-items-center">
-                    <a href="{% url 'synergy_list' %}?selected_synergy={{ synergy.slug }}" class="text-decoration-none text-reset">
+                <li class="list-group-item d-flex">
+                    <a href="{% url 'synergy_list' %}?selected_synergy={{ synergy.slug }}" class="text-decoration-none text-reset d-flex align-items-center">
                         <img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;">
                         <div>
-                            <strong>{{ synergy.name }}</strong>: {{ synergy.descriptions|linebreaksbr }}
+                          {{ synergy.descriptions|linebreaksbr }}
                         </div>
                     </a>
                 </li>
@@ -83,15 +123,15 @@
         </ul>
     </div>
 
-    <div class="col-md-6 col-6">
-        <h2>Recommended Items</h2>
+    <div class="col-12 col-md-6">
+        <h2 class="text-center">Recommended Items</h2>
         <ul class="list-group">
             {% for item in pokemon.recommended_items.all %}
-                <li class="list-group-item d-flex align-items-center">
-                    <a href="{% url 'item_list' %}?selected_item={{ item.slug }}" class="text-decoration-none text-reset">
+                <li class="list-group-item d-flex">
+                    <a href="{% url 'item_list' %}?selected_item={{ item.slug }}" class="text-decoration-none text-reset d-flex align-items-center">
                         <img src="{{ item.picture.url }}" alt="{{ item.name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;">
                         <div>
-                            <strong>{{ item.name }}</strong>: {{ item.description|linebreaksbr }}
+                            <strong>{{ item.name }}</strong><br> {{ item.description|linebreaksbr }}
                         </div>
                     </a>
                 </li>
@@ -101,5 +141,18 @@
         </ul>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const mainImage = document.getElementById("main-image");
+        const thumbnails = document.querySelectorAll(".thumbnail-image");
+
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener("click", function() {
+                mainImage.src = this.src;
+            });
+        });
+    });
+</script>
 
 {% endblock %}

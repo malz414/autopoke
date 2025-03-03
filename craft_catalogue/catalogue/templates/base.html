@@ -32,13 +32,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'synergy_list' %}">Synergies</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'installation' %}">How to install</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="guidesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Guides
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="guidesDropdown">
+                            <li><a class="dropdown-item" href="{% url 'installation' %}">How to Install</a></li>
+                            <li><a class="dropdown-item" href="{% url 'tier_list' %}">Tier List</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+    
 
     
     
@@ -125,6 +132,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .pokemon-card {
+  
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -134,6 +142,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Remove inner styling */
 .pokemon-card .card-body {
+    min-height: 250px;
     padding: 10px; /* Add some padding for spacing */
     margin: 0;
     border: none;
@@ -177,7 +186,16 @@ h1, h2, h3, h4, h5, h6 {
     color: inherit;
 }
 
+@media (max-width: 767.98px) {
+    .list-group-item {
+        padding: 0.5rem; /* Reduce padding on mobile */
+    }
 
+    .thumbnail-image {
+        width: 50px !important; /* Smaller thumbnails on mobile */
+        height: 50px !important;
+    }
+}
 
     .pokemon-card-container {
         position: relative;
@@ -186,12 +204,12 @@ h1, h2, h3, h4, h5, h6 {
     .tooltip-container {
         display: none;
         position: absolute;
-        top: -100%;
+        top: -55%;
         left: 50%;
         transform: translateX(-50%);
         background-color: rgba(0, 0, 0, 0.7);
         color: white;
-        padding: 10px;
+        padding: 2px;
         border-radius: 5px;
         z-index: 10;
         white-space: nowrap;
