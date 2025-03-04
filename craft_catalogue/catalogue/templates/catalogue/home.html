@@ -12,17 +12,17 @@
         <div class="col-md-4 d-flex">
             {% if featured_pokemon|length >= 4 %}
             <div class="card mb-4 flex-fill">
-                <a href="{% url 'pokemon_detail' featured_pokemon.3.slug %}">
-                    {% if featured_pokemon.3.images.all %}
-                        <img src="{{ featured_pokemon.3.images.first.image.url }}" class="card-img-top" alt="{{ featured_pokemon.3.name }}" style="height: 150px; object-fit: contain;">
+                <a href="{% url 'pokemon_detail' featured_pokemon.4.slug %}">
+                    {% if featured_pokemon.4.images.all %}
+                        <img src="{{ featured_pokemon.4.images.first.image.url }}" class="card-img-top" alt="{{ featured_pokemon.4.name }}" style="height: 150px; object-fit: contain;">
                     {% else %}
                         <p class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 150px;">No image available</p>
                     {% endif %}
                 </a>
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ featured_pokemon.3.name }}</h5>
-                    <p class="card-text flex-grow-1">{{ featured_pokemon.3.description|truncatechars:100 }}</p>
-                    <a href="{% url 'pokemon_detail' featured_pokemon.3.slug %}" class="btn btn-primary btn-sm mt-auto">View Details</a>
+                    <h5 class="card-title">{{ featured_pokemon.4.name }}</h5>
+                    <p class="card-text flex-grow-1">{{ featured_pokemon.4.description|truncatechars:100 }}</p>
+                    <a href="{% url 'pokemon_detail' featured_pokemon.4.slug %}" class="btn btn-primary btn-sm mt-auto">View Details</a>
                 </div>
             </div>
             {% endif %}
@@ -32,12 +32,12 @@
         <div class="col-md-4 d-flex">
             {% if featured_items|length >= 4 %}
             <div class="card mb-4 flex-fill">
-                <a href="{% url 'item_list' %}?selected_item={{ featured_items.3.slug }}">
-                    <img src="{{ featured_items.3.picture.url }}" class="card-img-top" alt="{{ featured_items.3.name }}" style="height: 150px; object-fit: contain;">
+                <a href="{% url 'item_list' %}?selected_item={{ featured_items.4.slug }}">
+                    <img src="{{ featured_items.4.picture.url }}" class="card-img-top" alt="{{ featured_items.4.name }}" style="height: 150px; object-fit: contain;">
                 </a>
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ featured_items.3.name }}</h5>
-                    <a href="{% url 'item_list' %}?selected_item={{ featured_items.3.slug }}" class="btn btn-primary btn-sm mt-auto">View Details</a>
+                    <h5 class="card-title">{{ featured_items.4.name }}</h5>
+                    <a href="{% url 'item_list' %}?selected_item={{ featured_items.4.slug }}" class="btn btn-primary btn-sm mt-auto">View Details</a>
                 </div>
             </div>
             {% endif %}
@@ -47,12 +47,12 @@
         <div class="col-md-4 d-flex">
             {% if featured_synergies|length >= 4 %}
             <div class="card mb-4 flex-fill">
-                <a href="{% url 'synergy_list' %}?selected_synergy={{ featured_synergies.3.slug }}">
-                    <img src="{{ featured_synergies.3.picture.url }}" class="card-img-top" alt="{{ featured_synergies.3.name }}" style="height: 150px; object-fit: contain;">
+                <a href="{% url 'synergy_list' %}?selected_synergy={{ featured_synergies.4.slug }}">
+                    <img src="{{ featured_synergies.4.picture.url }}" class="card-img-top" alt="{{ featured_synergies.4.name }}" style="height: 150px; object-fit: contain;">
                 </a>
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ featured_synergies.3.name }}</h5>
-                    <a href="{% url 'synergy_list' %}?selected_synergy={{ featured_synergies.3.slug }}" class="btn btn-primary btn-sm mt-auto">View Details</a>
+                    <h5 class="card-title">{{ featured_synergies.4.name }}</h5>
+                    <a href="{% url 'synergy_list' %}?selected_synergy={{ featured_synergies.4.slug }}" class="btn btn-primary btn-sm mt-auto">View Details</a>
                 </div>
             </div>
             {% endif %}
