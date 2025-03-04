@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container p-0 mt-4">
 <h1 style="text-align: center;">{{ pokemon.name }}</h1>
 
 <!-- Image and Thumbnails -->
@@ -141,7 +142,7 @@
         </ul>
     </div>
 </div>
-
+</div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const mainImage = document.getElementById("main-image");
