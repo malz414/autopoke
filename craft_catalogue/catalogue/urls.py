@@ -36,6 +36,7 @@ urlpatterns = [
     path('synergy/<slug:slug>/', views.synergy_detail, name='synergy_detail'),
 
     path('pokemon/', views.pokemon_list, name='pokemon_list'),
+    
     path('items/', views.item_list, name='item_list'),
     path('items/<slug:slug>/', item_detail, name='item_detail'),
     path('synergies/', views.synergy_list, name='synergy_list'),

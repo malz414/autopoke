@@ -24,6 +24,8 @@ def search_pokemon(request):
 def pokemon_list(request):
     query = request.GET.get('q')  # Get search query
     pokemon_list = Pokemon.objects.all()
+    synergies = Synergy.objects.all()
+    print("Synergies:", list(synergies))  # Debugging line
 
     if query:
         pokemon_list = pokemon_list.filter(
@@ -32,17 +34,14 @@ def pokemon_list(request):
             Q(tier__icontains=query)    # Search by tier
         )
 
-    return render(request, 'catalogue/pokemon_list.html', {'pokemon_list': pokemon_list, 'query': query})
+    return render(request, 'catalogue/pokemon_list.html', {'pokemon_list': pokemon_list, 'query': query, 'synergies': synergies})
 
 #TODo Should change ranks to be ints
 def pokemon_list_view(request):
     pokemon_list = sorted(Pokemon.objects.all(), key=lambda p: int(p.rank))
-    synergies = Synergy.objects.all()  # Pass full objects, not just names
-    context = {
-        'pokemon_list': pokemon_list,
-        'synergies': synergies,
-    }
-    return render(request, 'pokemon_list.html', context)
+
+    return render(request, 'pokemon_list.html', {'pokemon_list': pokemon_list})
+
 
 
 def item_list(request):
@@ -128,6 +127,7 @@ def tier_list(request):
 def synergy_list(request):
     query = request.GET.get('q', '')  # Get search query
     synergy_list = Synergy.objects.all()
+    print("Synergies:", list(synergy_list)) 
 
     if query:
         synergy_list = synergy_list.filter(
