@@ -42,6 +42,9 @@ def pokemon_list_view(request):
 
     return render(request, 'pokemon_list.html', {'pokemon_list': pokemon_list})
 
+def patch_notes(request):
+    return render(request,'catalogue/patch_notes.html') 
+
 
 
 def item_list(request):
