@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Autopoké</title>
+    <title>Pokémon Auto Chess - The Ultimate Strategy Battle Experience!</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
@@ -9,6 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3195983389027090"
      crossorigin="anonymous"></script>
+  
+    <meta name="description" content="Discover the best Pokémon Auto Chess gameplay, strategies, tier lists, and updates. Build the strongest Pokémon team and master the TFT-style auto battler!">
+    <meta name="keywords" content="Pokémon Auto Chess, Pokémon TFT, Pokémon Auto Battler, Strategy Pokémon, Pokémon Team Builder">
+    <meta name="author" content="Autopoké">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    
 </head>
 <body>
     <!-- Navbar -->
@@ -50,7 +57,7 @@
     
     
     <!-- Content Block -->
-    <div class="container  mt-4">
+    <div class="container-fluid p-0">
         {% block content %}{% endblock %}
     </div>
 
@@ -83,6 +90,7 @@
     <style>
         /* Ensure the footer stays at the bottom */
 html, body {
+    scroll-behavior: smooth;
     height: 100%;
     margin: 0;
     padding: 0;

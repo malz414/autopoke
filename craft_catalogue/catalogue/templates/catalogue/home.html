@@ -1,62 +1,122 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="text-center">
-    <h1>Welcome to the Pokémon Site!</h1>
-    <p class="lead">Explore Pokémon, items, and synergies to build your ultimate team.</p>
 
-    <!-- Featured Pokémon, Item, and Synergy in a Single Row -->
-    <h2>Featured</h2>
-    <div class="row d-flex">
-        <!-- Featured Pokémon -->
-        <div class="col-md-4 d-flex">
-            {% if featured_pokemon|length >= 4 %}
-            <div class="card mb-4 flex-fill">
-                <a href="{% url 'pokemon_detail' featured_pokemon.4.slug %}">
-                    {% if featured_pokemon.4.images.all %}
-                        <img src="{{ featured_pokemon.4.images.first.image.url }}" class="card-img-top" alt="{{ featured_pokemon.4.name }}" style="height: 150px; object-fit: contain;">
-                    {% else %}
-                        <p class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 150px;">No image available</p>
-                    {% endif %}
-                </a>
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ featured_pokemon.4.name }}</h5>
-                    <p class="card-text flex-grow-1">{{ featured_pokemon.4.description|truncatechars:100 }}</p>
-                    <a href="{% url 'pokemon_detail' featured_pokemon.4.slug %}" class="btn btn-primary btn-sm mt-auto">View Details</a>
-                </div>
-            </div>
-            {% endif %}
-        </div>
+<section class="hero text-center text-white d-flex align-items-center justify-content-center" 
+         style="background: url('/media/pokemon/hero-bg.jpg') center/cover; position: relative; min-height: 70vh; width: 100vw;">
+    
+    <div class="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
 
-        <!-- Featured Item -->
-        <div class="col-md-4 d-flex">
-            {% if featured_items|length >= 4 %}
-            <div class="card mb-4 flex-fill">
-                <a href="{% url 'item_list' %}?selected_item={{ featured_items.4.slug }}">
-                    <img src="{{ featured_items.4.picture.url }}" class="card-img-top" alt="{{ featured_items.4.name }}" style="height: 150px; object-fit: contain;">
-                </a>
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ featured_items.4.name }}</h5>
-                    <a href="{% url 'item_list' %}?selected_item={{ featured_items.4.slug }}" class="btn btn-primary btn-sm mt-auto">View Details</a>
-                </div>
-            </div>
-            {% endif %}
-        </div>
+    <div class="container-fluid position-relative">
+        <div class="d-flex flex-column align-items-center justify-content-center h-100">
+            <h1 class="display-4 fw-bold">Autopoké</h1>
+            <p class="lead">Build your team, master synergies, and battle to victory in this strategic Pokémon auto-battler!</p>
 
-        <!-- Featured Synergy -->
-        <div class="col-md-4 d-flex">
-            {% if featured_synergies|length >= 4 %}
-            <div class="card mb-4 flex-fill">
-                <a href="{% url 'synergy_list' %}?selected_synergy={{ featured_synergies.4.slug }}">
-                    <img src="{{ featured_synergies.4.picture.url }}" class="card-img-top" alt="{{ featured_synergies.4.name }}" style="height: 150px; object-fit: contain;">
-                </a>
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ featured_synergies.4.name }}</h5>
-                    <a href="{% url 'synergy_list' %}?selected_synergy={{ featured_synergies.4.slug }}" class="btn btn-primary btn-sm mt-auto">View Details</a>
-                </div>
+            <div class="d-flex justify-content-center mt-4">
+                
+                <a href="#how-to-play" class="btn btn-outline-light btn-lg me-3">How to Play</a>
+                <a href="{% url 'tier_list' %}" class="btn btn-outline-light btn-lg me-3">View Tier List</a>
+               
             </div>
-            {% endif %}
         </div>
     </div>
-</div>
+</section>
+
+
+
+<!-- What is Pokémon Auto Chess? -->
+<section class="container my-4">
+    <div class="row align-items-center">
+        <!-- Text Content -->
+        <div class="col-md-6">
+            <h2 class="text-center">What is Pokémon Auto Chess?</h2>
+            <p>
+                Pokémon Auto Chess is a strategy-based auto battler similar to Teamfight Tactics (TFT). 
+                Players assemble teams of Pokémon, each with unique abilities, and battle automatically on a grid-based board.
+                The key to victory lies in understanding Pokémon synergies, positioning, and item optimization.
+            </p>
+        </div>
+        <!-- Image -->
+        <div class="col-md-6 text-center">
+            <img src="/media/pokemon/Untitled.jpg" alt="Pokémon Auto Chess Gameplay" class="img-fluid rounded">
+        </div>
+    </div>
+</section>
+
+<!-- How to Play -->
+<section  id="how-to-play" class="container my-2">
+    <div class="row align-items-center">
+        <!-- Image -->
+        <div class="col-md-6 text-center">
+            <img src="/media/pokemon/Untitled.jpg" alt="How to Play Pokémon Auto Chess" class="img-fluid rounded">
+        </div>
+        <!-- Text Content -->
+        <div class="col-md-6">
+            <h2 class="text-center">How to Play</h2>
+            <ol>
+                <li><strong>Build Your Team:</strong> Select Pokémon from a rotating shop and form a team with strong synergies.</li>
+                <li><strong>Positioning:</strong> Place Pokémon strategically on the board to maximize their abilities.</li>
+                <li><strong>Equip Items:</strong> Enhance your Pokémon's strength with items found throughout the match.</li>
+                <li><strong>Battle Rounds:</strong> Pokémon automatically fight enemy teams, and the winner deals damage to the opponent.</li>
+                <li><strong>Adapt & Strategize:</strong> Keep up with the changing meta, upgrade Pokémon, and adjust your strategy to win.</li>
+            </ol>
+        </div>
+    </div>
+</section>
+<section class="container text-center my-5">
+      <!-- Featured Section -->
+      <h2 class="text-center">Featured</h2>
+      <div class="row d-flex">
+          <!-- Featured Pokémon -->
+          <div class="col-md-4 d-flex">
+              {% if featured_pokemon|length >= 4 %}
+              <div class="card mb-4 flex-fill">
+                  <a href="{% url 'pokemon_detail' featured_pokemon.5.slug %}">
+                      {% if featured_pokemon.5.images.all %}
+                          <img src="{{ featured_pokemon.5.images.first.image.url }}" class="card-img-top" alt="{{ featured_pokemon.5.name }}" style="height: 150px; object-fit: contain;">
+                      {% else %}
+                          <p class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 150px;">No image available</p>
+                      {% endif %}
+                  </a>
+                  <div class="card-body d-flex flex-column">
+                      <h5 class="card-title">{{ featured_pokemon.5.name }}</h5>
+                      <p class="card-text flex-grow-1">{{ featured_pokemon.5.description|truncatechars:100 }}</p>
+                      <a href="{% url 'pokemon_detail' featured_pokemon.5.slug %}" class="btn btn-primary btn-sm mt-auto">View Details</a>
+                  </div>
+              </div>
+              {% endif %}
+          </div>
+  
+          <!-- Featured Item -->
+          <div class="col-md-4 d-flex">
+              {% if featured_items|length >= 4 %}
+              <div class="card mb-4 flex-fill">
+                  <a href="{% url 'item_list' %}?selected_item={{ featured_items.5.slug }}">
+                      <img src="{{ featured_items.5.picture.url }}" class="card-img-top" alt="{{ featured_items.5.name }}" style="height: 150px; object-fit: contain;">
+                  </a>
+                  <div class="card-body d-flex flex-column">
+                      <h5 class="card-title">{{ featured_items.5.name }}</h5>
+                      <a href="{% url 'item_list' %}?selected_item={{ featured_items.5.slug }}" class="btn btn-primary btn-sm mt-auto">View Details</a>
+                  </div>
+              </div>
+              {% endif %}
+          </div>
+  
+          <!-- Featured Synergy -->
+          <div class="col-md-4 d-flex">
+              {% if featured_synergies|length >= 4 %}
+              <div class="card mb-4 flex-fill">
+                  <a href="{% url 'synergy_list' %}?selected_synergy={{ featured_synergies.5.slug }}">
+                      <img src="{{ featured_synergies.5.picture.url }}" class="card-img-top" alt="{{ featured_synergies.5.name }}" style="height: 150px; object-fit: contain;">
+                  </a>
+                  <div class="card-body d-flex flex-column">
+                      <h5 class="card-title">{{ featured_synergies.5.name }}</h5>
+                      <a href="{% url 'synergy_list' %}?selected_synergy={{ featured_synergies.5.slug }}" class="btn btn-primary btn-sm mt-auto">View Details</a>
+                  </div>
+              </div>
+              {% endif %}
+          </div>
+      </div>
+      </section>
+
 {% endblock %}

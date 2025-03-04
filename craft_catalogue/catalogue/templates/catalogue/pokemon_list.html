@@ -4,55 +4,63 @@
 {% block content %}
 <div class="container mt-4">
     <div class="row">
+        <!-- Toggle Button for Mobile -->
+        <div class="col-12 d-md-none mb-3">
+            <button class="btn btn-outline-dark w-100" type="button" data-bs-toggle="collapse" data-bs-target="#filterOptions">
+                Toggle Filters
+            </button>
+        </div>
+
         <!-- Filter Sidebar -->
         <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Filter Options</h5>
+            <div id="filterOptions" class="collapse d-md-block">  <!-- Collapsible on mobile, always visible on desktop -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Filter Options</h5>
 
-                    <!-- Rank Filter -->
-                    <h6>Filter by Rank</h6>
-                    <ul class="list-unstyled">
-                        {% for rank in "1234" %}
-                        <li>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input rank-filter" id="rank-{{ rank }}" data-rank="{{ rank }}">
-                                <label class="form-check-label" for="rank-{{ rank }}">Rank {{ rank }}</label>
-                            </div>
-                        </li>
-                        {% endfor %}
-                    </ul>
-
-                    <!-- Synergy Filter -->
-                 
-                    <h6>Filter by Synergy</h6>
-                    <div class="row">
-                        {% for synergy in synergies %}
-                            <div class="col-6">  <!-- Each checkbox takes half the width (2 per row) -->
+                        <!-- Rank Filter -->
+                        <h6>Filter by Rank</h6>
+                        <ul class="list-unstyled">
+                            {% for rank in "1234" %}
+                            <li>
                                 <div class="form-check">
-                                    <input type="checkbox"
-                                           class="form-check-input synergy-filter"
-                                           id="synergy-{{ synergy.slug }}"
-                                           data-synergy="{{ synergy.name|lower }}">
-                                    <label class="form-check-label" for="synergy-{{ synergy.slug }}">{{ synergy.name }}</label>
+                                    <input type="checkbox" class="form-check-input rank-filter" id="rank-{{ rank }}" data-rank="{{ rank }}">
+                                    <label class="form-check-label" for="rank-{{ rank }}">Rank {{ rank }}</label>
                                 </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    
+                            </li>
+                            {% endfor %}
+                        </ul>
 
-                    <!-- Sorting Option -->
-                    <h6 class="mt-3">Sort By</h6>
-                    <select id="sort-by" class="form-select">
-                        <option value="rank-asc">Rank Ascending</option>
-                        <option value="rank-desc">Rank Descending</option>
-                        <option value="name-asc">Name A-Z</option>
-                        <option value="name-desc">Name Z-A</option>
-                    </select>
+                        <!-- Synergy Filter -->
+                        <h6>Filter by Synergy</h6>
+                        <div class="row">
+                            {% for synergy in synergies %}
+                                <div class="col-6">  <!-- Each checkbox takes half the width (2 per row) -->
+                                    <div class="form-check">
+                                        <input type="checkbox"
+                                               class="form-check-input synergy-filter"
+                                               id="synergy-{{ synergy.slug }}"
+                                               data-synergy="{{ synergy.name|lower }}">
+                                        <label class="form-check-label" for="synergy-{{ synergy.slug }}">{{ synergy.name }}</label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Sorting Option -->
+                        <h6 class="mt-3">Sort By</h6>
+                        <select id="sort-by" class="form-select">
+                            <option value="rank-asc">Rank Ascending</option>
+                            <option value="rank-desc">Rank Descending</option>
+                            <option value="name-asc">Name A-Z</option>
+                            <option value="name-desc">Name Z-A</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Pokémon List -->
         <div class="col-md-9">
             <div class="row mb-3">
                 <!-- Search Bar -->
