@@ -8,7 +8,7 @@ html, body {
     font-family: 'Yanone Kaffeesatz', sans-serif;
     font-weight: 300;
     font-size: large;
-    background-color: #F8F8F8;
+    background-color: #ffffff;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -83,15 +83,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .pokemon-card[data-rank="2"] .card {
-    border-color: blue !important;
+    border-color: rgb(0, 0, 182) !important;
 }
 
 .pokemon-card[data-rank="3"] .card {
-    border-color: purple !important;
+    border-color: rgb(111, 30, 111) !important;
 }
 
 .pokemon-card[data-rank="4"] .card {
-    border-color: yellow !important;
+    border-color: rgb(189, 164, 0) !important;
 }
 
 /* Adjust font size for Pokémon names */
@@ -101,6 +101,8 @@ h1, h2, h3, h4, h5, h6 {
     color: inherit;
 }
 
+
+
     .pokemon-card-container {
         position: relative;
     }
@@ -108,10 +110,10 @@ h1, h2, h3, h4, h5, h6 {
     .tooltip-container {
         display: none;
         position: absolute;
-        top: 100%;
+        top: -100%;
         left: 50%;
         transform: translateX(-50%);
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: rgba(0, 0, 0, 0.7);
         color: white;
         padding: 10px;
         border-radius: 5px;

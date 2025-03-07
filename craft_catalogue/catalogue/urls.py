@@ -32,6 +32,7 @@ urlpatterns = [
     path('installation/', views.installation, name='installation'),
      path('tier_list/', views.tier_list, name='tier_list'),
     path('patch_notes/', views.patch_notes, name='patch_notes'),
+    path('mechanics/', views.mechanics, name='mechanics'),
 
     
     # HTML view for synergy details (if needed elsewhere)

@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Container for Game Mechanics -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center mb-4">Core Gameplay Mechanics</h2>
+
+            <!-- Overlay Stats Descriptor Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="text-center">Stats Overlay Explanation</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Each Pokémon has unique stats including HP, Defenses, Attack Speed, etc. Here is an example with a Rowlet:</p>
+                            <ul>
+                                <li>Attack: 65</li>
+                                <li>Defense: 95</li>
+                                <li>Special Attack: 20</li>
+                                <li>Special Defense: 110</li>
+                                <li>Attack Speed: 0.90</li>
+                                <li>Critical Hit Rate: 25%</li>
+                                <li>Critical Hit Damage Bonus: 140%</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Placeholder for image -->
+                            <img src="/media/pokemon/dew1.jpeg" class="img-fluid" alt="Stats Overlay Example">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leveling Up Rates Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="text-center">Level Progression Rates</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>As you advance in levels, you gain more Pokémon on your board and unlock Unite moves, which also affects the appearance rate of certain cost Pokémon.</p>
+                            <!-- Add the chart of encounter rates here -->
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Placeholder for image -->
+                            <img src="/media/pokemon/star.jpeg" class="img-fluid" alt="Level Progression Example">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <!-- Trainer EXP Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="text-center">Level Rewards</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Level up your trainer to increase the number of Pokémon on your board and gain Unite discs. Each round grants 4 experience points automatically, or invest 4 gold to gain 4 experience. The item <a href="../items/?selected_item=lucky-egg">Lucky Egg</a> grants 2 bonus experience upon losing.</p>
+                            <!-- Add the experience requirement chart here -->
+                            <table class="table table-bordered mt-3">
+                                <thead>
+                                    <tr>
+                                        <th>Level</th>
+                                        <th>Experience needed</th>
+                                        <th>Reward</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>8</td>
+                                        <td>Pokemon Slot</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>20</td>
+                                        <td>Pokemon Slot</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>24</td>
+                                        <td>Pokemon Slot</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>36</td>
+                                        <td>Unite Disc</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>48</td>
+                                        <td>Pokemon Slots</td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>60</td>
+                                        <td>Pokemon Slots</td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>N/A</td>
+                                        <td>Unite Disc</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Placeholder for image -->
+                            <img src="/media/pokemon/player.jpeg" class="img-fluid" alt="Trainer Experience Example">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Currency Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="text-center">Currency Management</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Currency is crucial for victory. Here's how to manage it effectively:</p>
+                            <ul>
+                                <li>You gain a minimum of 9 currency in early rounds, reducing to 7 in later rounds.</li>
+                                <li>Maintain a Winning or Losing streak (See below)</li>
+                                <li>Equip an <a href="../items/?selected_item=amulet-coin">Amulet Coin</a>  to gain extra currency for match wins</li>
+                                <li>Interest: Gain extra currency based on your current amount.
+                                    <ul>
+                                        <li>10-19: 1 extra currency</li>
+                                        <li>20-29: 2 additional currencies</li>
+                                        <li>30+: 3 additional currencies</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Placeholder for image -->
+                            <img src="/media/pokemon/currency.jpeg" class="img-fluid" alt="Currency Management Example">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Winning/Losing Streak Information Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="text-center">Streak Bonuses</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Both winning and losing streaks grant additional currency:</p>
+                            <ul>
+                                <li>2 Streak: 1 extra currency</li>
+                                <li>3/4 Streak: 2 additional currencies</li>
+                                <li>5+ Streak: 3 additional currencies</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Placeholder for image -->
+                            <img src="/media/pokemon/streak.jpeg" class="img-fluid" alt="Streak Bonuses Example">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Star Ranks Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="text-center">Pokémon Star Levels</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Each Pokémon has three versions: 1-Star, 2-Star, and 3-Star. You start with the 1-Star version from the shop. Collecting three 1-Star versions upgrades it to 2-Star, and three 2-Star versions upgrade it to 3-Star.</p>
+                            <p>A 2-Star Pokémon unlocks additional abilities and may evolve. Its stats increase slightly, and it gains a second move swappable during preparation, though only one move can be swapped per round. With a Unite disc from Trainer level 5 or 8, the Pokémon can use both its chosen move and Unite move in battle.</p>
+                            <p>A 3-Star Pokémon sees a significant stat boost and may evolve to its final form.</p>
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="row">
+                                <div class="col-md-6 d-flex">
+                                    <!-- Placeholder for image -->
+                                    <img src="/media/pokemon/dew1.jpeg" class="img-fluid" alt="Dew basic stats">
+                                </div>
+                                <div class="col-md-6 d-flex">
+                                    <!-- Placeholder for image -->
+                                    <img src="/media/pokemon/dew2.jpeg" class="img-fluid" alt="Dew rank 1 stats">
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

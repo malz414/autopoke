@@ -45,6 +45,9 @@ def pokemon_list_view(request):
 def patch_notes(request):
     return render(request,'catalogue/patch_notes.html') 
 
+def mechanics(request):
+    return render(request,'catalogue/mechanics.html') 
+
 
 
 def item_list(request):

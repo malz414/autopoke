@@ -9,27 +9,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3195983389027090"
      crossorigin="anonymous"></script>
-  
+
     <meta name="description" content="Discover the best Pokémon Auto Chess gameplay, strategies, tier lists, and updates. Build the strongest Pokémon team and master the TFT-style auto battler!">
     <meta name="keywords" content="Pokémon Auto Chess, Pokémon TFT, Pokémon Auto Battler, Strategy Pokémon, Pokémon Team Builder">
     <meta name="author" content="Autopoké">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    
+
+    <!-- Favicon for general use -->
+    <link rel="icon" href="/mediafavicon/favicon.ico" type="image/x-icon">
+
+    <!-- Android Icons -->
+    <link rel="icon" sizes="192x192" href="/media/favicon/android-chrome-192x192.png" type="image/png">
+    <link rel="icon" sizes="512x512" href="/mediaf/avicon/android-chrome-512x512.png" type="image/png">
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{favicon/apple-touch-icon.png' %}">
+
+    <!-- Additional Icons -->
+    <link rel="icon" sizes="16x16" href="/mediafavicon/favicon-16x16.png" type="image/png">
+    <link rel="icon" sizes="32x32" href="/media/favicon/favicon-32x32.png" type="image/png">
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}">Autopoké</a>
+            
+            <a href="{% url 'home' %}" class="m-2">
+                <img src="/media/favicon/autopoke logo.png" alt="How to Play Pokémon Auto Chess" class="img-fluid rounded " style="max-height: 75px;">
+            </a>
+        
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
-                    </li>
+                
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'pokemon_list' %}">Pokémon</a>
                     </li>
@@ -44,6 +58,8 @@
                             Guides
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="guidesDropdown">
+                            
+                            <li><a class="dropdown-item" href="{% url 'mechanics' %}">Game Guide</a></li>
                             <li><a class="dropdown-item" href="{% url 'patch_notes' %}">Patch Notes</a></li>
                             <li><a class="dropdown-item" href="{% url 'installation' %}">How to Install</a></li>
                             <li><a class="dropdown-item" href="{% url 'tier_list' %}">Tier List</a></li>
@@ -67,16 +83,20 @@
     <div class="container">
         <div class="row">
             <!-- Featured Pokémon -->
-            <div class="col-md-4 mb-3 mb-md-0">
+            <div class="col-md-5 mb-3 mb-md-0">
                 <p class="mb-0">Site made by: malz<br>
-                    <p class="mb-0"><a href="mailto:maliquedonawa@gmail.com">Contact</a></p>
+                    <p class="mb-0"><a href="mailto:info@autopoke.net">Contact</a></p>
                     Information from:
                     <a href="https://x.com/ribbonchu?lang=en" target="_blank">Ribbonchu</a>/<a href="https://www.youtube.com/@Joshawott302" target="_blank">Joshawott302</a>
                 </p>
             </div>
-
-            <div class="col-md-8 mb-3 mb-md-0">
+            <div class="col-md-2 mb-3 mb-md-0">
                 <p class="mb-0">&copy; 2025 Autopoke.</p>
+            </div>
+
+
+            <div class="col-md-5 mb-3 mb-md-0">
+            
                 <p class="mb-0">This is a fan site and is not affiliated with Pokemon Unite, the Pokemon Company, nor the developers nor any rights holders of the game.</p>
             </div>
 
