@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-_iy7v=!x02&5bbwwy%k*i9)mh1@(^qs*l0=4$!les-=-)#-#$)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.autopoke.com', '127.0.0.1']
+ALLOWED_HOSTS = ['www.autopoke.net', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
