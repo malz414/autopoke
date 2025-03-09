@@ -21,7 +21,7 @@
                         <!-- Rank Filter -->
                         <h6>Filter by Rank</h6>
                         <ul class="list-unstyled">
-                            {% for rank in [1, 2, 3, 4] %}
+                            {% for rank in "1234"  %}
                             <li>
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input rank-filter" id="rank-{{ rank }}" data-rank="{{ rank }}">
@@ -134,8 +134,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function sortAndFilterPokemon() {
         const query = searchBar.value.toLowerCase();
         const selectedRanks = Array.from(rankCheckboxes)
-            .filter(checkbox => checkbox.checked)
-            .map(checkbox => checkbox.dataset.rank.toString()); 
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.dataset.rank);
         const selectedSynergies = Array.from(synergyCheckboxes)
                                 .filter(checkbox => checkbox.checked)
                                 .map(checkbox => checkbox.dataset.synergy.toLowerCase().trim());
