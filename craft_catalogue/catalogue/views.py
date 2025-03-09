@@ -21,20 +21,54 @@ def search_pokemon(request):
     return render(request, 'pokemon_list.html', {'pokemon_list': pokemon_list})
 
 
-def pokemon_list(request):
-    query = request.GET.get('q')  # Get search query
-    pokemon_list = Pokemon.objects.all()
-    synergies = Synergy.objects.all()
-    print("Synergies:", list(synergies))  # Debugging line
-
+def filter_pokemon(queryset, query):
+    """Filter Pokémon by name, rank, and tier."""
     if query:
-        pokemon_list = pokemon_list.filter(
-            Q(name__icontains=query) |  # Search by name
-            Q(rank__icontains=query) |  # Search by rank
-            Q(tier__icontains=query)    # Search by tier
+        return queryset.filter(
+            Q(name__icontains=query) |  
+            Q(rank__icontains=query) |  
+            Q(tier__icontains=query)   
         )
+    return queryset
 
-    return render(request, 'catalogue/pokemon_list.html', {'pokemon_list': pokemon_list, 'query': query, 'synergies': synergies})
+def pokemon_list(request):
+    query = request.GET.get('q', '')  
+    pokemon_list = filter_pokemon(Pokemon.objects.all(), query)
+    synergies = Synergy.objects.all()
+
+    return render(request, 'catalogue/pokemon_list.html', {
+        'pokemon_list': pokemon_list,
+        'query': query,
+        'synergies': synergies
+    })
+
+
+
+
+def team_builder(request):
+    query = request.GET.get('q', '')  
+    rank_filter = request.GET.get('rank', '')  
+    synergy_filter = request.GET.get('synergy', '')  
+
+    # Start with all Pokémon and synergies
+    pokemon_list = filter_pokemon(Pokemon.objects.all(), query)
+    synergy_list = Synergy.objects.all()
+
+    # Apply additional filters
+    if rank_filter:
+        pokemon_list = pokemon_list.filter(rank=rank_filter)
+
+    if synergy_filter:
+        pokemon_list = pokemon_list.filter(synergies__name__icontains=synergy_filter)
+
+    return render(request, 'catalogue/team_builder.html', {
+        'pokemon_list': pokemon_list,
+        'synergy_list': synergy_list,
+        'query': query,
+        'rank_filter': rank_filter,
+        'synergy_filter': synergy_filter
+    })
+
 
 #TODo Should change ranks to be ints
 def pokemon_list_view(request):
