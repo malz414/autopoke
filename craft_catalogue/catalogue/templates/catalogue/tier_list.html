@@ -3,11 +3,11 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-center">Pokémon Tier List</h2>
+    <h2 class="text-center"><a href="https://www.twitch.tv/silentsheepy"target="_blank">Sleepy Sheep's (Rank 350)</a> Tier List</h2>
 
     {% for tier_name, tier_number in tiers %}
     <div class="tier-section">
-        <h3 class="tier-header">Rank {{ tier_name }}</h3>
+        <h3 class="tier-header">{{ tier_name }}</h3>
         <div class="tier-row">
             {% for pokemon in pokemon_list %}
                 {% if pokemon.tier == tier_number %}

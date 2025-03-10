@@ -5,55 +5,60 @@
 <div class="container mt-4">
     <div class="row">
         <!-- Toggle Button for Mobile -->
-        <div class="col-12 d-md-none mb-3">
-            <button class="btn btn-outline-dark w-100" type="button" data-bs-toggle="collapse" data-bs-target="#filterOptions">
-                Toggle Filters
-            </button>
-        </div>
-
+  
         <!-- Filter Sidebar -->
-        <div class="col-md-4">
-            <div id="filterOptions" class="collapse d-md-block">  <!-- Collapsible on mobile, always visible on desktop -->
-                <div class="card p-0" >
-                    <div class="card-body p-0" >
-
-           
-
-                        <!-- Synergies -->
-                        <div id="synergy-display" class="border" style="background: #f8f9fa;">
-                            <p id="synergy-info">Synergies: None</p>
-                            <!-- Synergies and their Pokémon will be added here -->
+        <div class="col-md-6">
+            
+            <div id="filterOptionsSidebar" class="collapse d-md-block">
+                <div class="card p-0">
+                    <div class="card-body p-0">
+                        <!-- Synergies Display -->
+                        <div id="synergy-display" class="border " style="background: #f8f9fa; min-height: 150px;  ">
+                            <p id="synergy-info"></p>
+                            <!-- Synergy sections will be added here -->
                         </div>
                     </div>
                 </div>
             </div>
-           
         </div>
 
         <!-- Pokémon List and Team Builder -->
         <div class="col-md-6">
-          
-
             <!-- Pokémon List -->
             <div id="pokemon-list" class="row">
                 <div class="col-md-12">
-        
                     <div class="d-flex">
                         <!-- Team Builder -->
-                        <div id="team-builder" class="d-flex flex-wrap border p-3" style="width: 100%; min-height: 200px; background: #f8f9fa;">
+                        <div id="team-builder" class="d-flex flex-wrap border p-3" style="width: 100%; min-height: 150px; background: #f8f9fa;">
                             <!-- Selected Pokémon will be added here -->
                         </div>
                     </div>
                 </div>
-             
                 <div class="row mb-3">
                     <!-- Search Bar -->
-                    <div class="col-md-12  mt-4">
-                        <input type="text" id="search-bar" class="form-control" placeholder="Search Pokémon...">
+                    <div class="col-md-4 mt-4 mx-auto">
+                        <input type="text" id="search-bar" class="form-control text-center" placeholder="Find Pokémon">
+                    </div>
+                    <div class="col-md-4 mt-4 mx-auto">
+                    <select id="sort-by" class="form-select">
+                        <option value="rank-asc">Rank Ascending</option>
+                        <option value="rank-desc">Rank Descending</option>
+                        <option value="name-asc">Name A-Z</option>
+                        <option value="name-desc">Name Z-A</option>
+                    </select>
+                    </div>
+                    <div class="col-md-4 mt-4 mx-auto">
+                        <!-- Toggle Synergy Details -->
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" id="toggle-synergy-details">
+                            <label class="form-check-label" for="toggle-synergy-details">
+                                Synergy Details
+                            </label>
+                        </div>
                     </div>
                 </div>
-                
-        
+           
+
 
                 {% for pokemon in pokemon_list %}
                 <div class="col-md-2 col-sm-2 col-2 mb-3 pokemon-card"
@@ -62,215 +67,173 @@
                     data-synergies="{% for s in pokemon.synergies.all %}{{ s.name }}{% if not forloop.last %},{% endif %}{% endfor %}"
                     data-synergies2="{% for s in pokemon.synergies.all %}{{ s.picture.url }}{% if not forloop.last %},{% endif %}{% endfor %}"
                     data-alternate-names="{{ pokemon.alternate_names }}">
-                    <div class="card text-decoration-none text-reset pokemon-card-container">
+                    <div class="card  p-1 text-decoration-none text-reset pokemon-card-container">
                         {% if pokemon.images.all %}
                             <img src="{{ pokemon.images.first.image.url }}" alt="{{ pokemon.name }}" class="img-fluid">
                         {% else %}
                             <p>No image available</p>
                         {% endif %}
+                        <!-- Synergy Icons Section -->
+                        <div class="synergy-icons mt-2">
+                            {% for synergy in pokemon.synergies.all %}
+                                <img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}" title="{{ synergy.name }}" class="synergy-icon">
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
                 {% empty %}
                 <div class="col-12">No Pokémon found.</div>
                 {% endfor %}
+                
             </div>
         </div>
-        <div class="col-md-2">
-            <div id="filterOptions" class="collapse d-md-block">  <!-- Collapsible on mobile, always visible on desktop -->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Filter Options</h5>
+
+        <!-- Options Panel -->
     
-                        <!-- Rank Filter -->
-                        <h6>Filter by Rank</h6>
-                        <ul class="list-unstyled">
-                            {% for rank in "1234" %}
-                            <li>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input rank-filter" id="rank-{{ rank }}" data-rank="{{ rank }}">
-                                    <label class="form-check-label" for="rank-{{ rank }}">Rank {{ rank }}</label>
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-    
-                        <!-- Synergy Filter -->
-                        <h6>Filter by Synergy</h6>
-                        <div class="row">
-                            {% for synergy in synergies %}
-                                <div class="col-6">  <!-- Each checkbox takes half the width (2 per row) -->
-                                    <div class="form-check">
-                                        <input type="checkbox"
-                                               class="form-check-input synergy-filter"
-                                               id="synergy-{{ synergy.slug }}"
-                                               data-synergy="{{ synergy.name|lower }}">
-                                        <label class="form-check-label" for="synergy-{{ synergy.slug }}">{{ synergy.name }}</label>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-    
-                        <!-- Sorting Option -->
-                        <h6 class="mt-3">Sort By</h6>
-                        <select id="sort-by" class="form-select">
-                            <option value="rank-asc">Rank Ascending</option>
-                            <option value="rank-desc">Rank Descending</option>
-                            <option value="name-asc">Name A-Z</option>
-                            <option value="name-desc">Name Z-A</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
 
+<!-- Define synergyDescriptions as a JS object -->
 <script>
-    const synergyDescriptions = {
+    const synergyDescriptionsData = {
         {% for synergy in synergy_list %}
             "{{ synergy.name|lower }}": {
                 description: `{{ synergy.descriptions|escapejs }}`,
                 imageUrl: "{{ synergy.picture.url }}"
-            },
+            }{% if not forloop.last %},{% endif %}
         {% endfor %}
     };
 </script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    // Grab DOM elements
     const teamBuilder = document.getElementById('team-builder');
     const synergyInfo = document.getElementById('synergy-info');
+    const toggleDetailsCheckbox = document.getElementById('toggle-synergy-details');
     const maxTeamSize = 6;
-    let currentTeam = []; // Array to store Pokémon objects in the team
-    let synergyCount = {}; // Tracks synergy count
-    let countedSynergies = {}; // Tracks which synergies have been counted for each Pokémon
-    let pokemonCount = {}; // Tracks how many times each Pokémon is in the team
-        const synergyDescriptions = {
-            {% for synergy in synergy_list %}
-                "{{ synergy.name|lower }}": `{{ synergy.descriptions|escapejs }}`,
-            {% endfor %}
-        };
-function getSynergyDescription(synergyName, count) {
-    const descriptions = synergyDescriptions[synergyName.toLowerCase()];
-    if (!descriptions) return '';
+    let currentTeam = []; // Array for team Pokémon
+    let synergyCount = {}; // Counts per synergy
+    let countedSynergies = {}; // To track if a synergy is already counted for a Pokémon
+    let pokemonCount = {}; // Count of each Pokémon in team
 
-    // Split the descriptions into lines
-    const lines = descriptions.split('\n');
+    // Use the synergyDescriptionsData defined above
+    const synergyDescriptions = synergyDescriptionsData;
 
-    // Get the base description (first line)
-    const baseDescription = lines[0].trim();
-
-    // Find the line with the specific count (e.g., x2, x3, etc.)
-    let specificDescription = '';
-    for (let line of lines) {
-        if (line.includes(`x${count}`) && count <= 5) {
-            specificDescription = line.trim();
-            break;
-        }
-    }
-
-    // Combine the base description and the specific description with a line break
-    let result = baseDescription;
-    if (specificDescription) {
-        result += '\n' + specificDescription;
-    }
-
-    // Add extra lines after x4 or x5 (if they exist)
-    if (count === 4 || count === 5) {
-        const extraLines = [];
+    // Function to get synergy description text
+    function getSynergyDescription(synergyName, count) {
+        const descData = synergyDescriptions[synergyName.toLowerCase()];
+        if (!descData) return '';
+        const lines = descData.description.split('\n');
+        const baseDescription = lines[0].trim();
+        let specificDescription = '';
         for (let line of lines) {
-            if (line.includes('x10') || line.includes('x40') || line.includes('x80') || line.includes('x120') || line.includes('x180')) {
-                extraLines.push(line.trim());
+            if (line.includes(`x${count}`) && count <= 5) {
+                specificDescription = line.trim();
+                break;
             }
         }
-
-        if (extraLines.length > 0) {
-            result += '\n' + extraLines.join('\n');
+        let result = baseDescription;
+        if (specificDescription) {
+            result += '\n' + specificDescription;
         }
-    }
-
-    return result;
-}
-function updateSynergies() {
-    let synergyDisplay = document.getElementById('synergy-display');
-    synergyDisplay.innerHTML = ''; // Clear previous content
-
-    // Log synergyCount for debugging
-    console.log('Synergy Count:', synergyCount);
-
-    Object.entries(synergyCount).forEach(([synergy, count]) => {
-        if (count > 0) {
-            let synergySection = document.createElement('div');
-            synergySection.className = 'synergy-section mb-1';
-
-            // Create a container for the synergy icon and count
-            let synergyHeader = document.createElement('div');
-            synergyHeader.className = 'd-flex align-items-center mb-2';
-
-            // Find the synergy icon URL from the first Pokémon in the team with this synergy
-            let synergyIconUrl = '';
-            for (let pokemon of currentTeam) {
-                let pokemonCard = document.querySelector(`.pokemon-card[data-name="${pokemon.name}"]`);
-                if (pokemonCard && pokemonCard.dataset.synergies.includes(synergy)) {
-                    let synergyIndex = pokemonCard.dataset.synergies.split(',').indexOf(synergy);
-                    synergyIconUrl = pokemonCard.dataset.synergies2.split(',')[synergyIndex].trim();
-                    break;
+        if (count === 4 || count === 5) {
+            const extraLines = [];
+            for (let line of lines) {
+                if (line.includes('x10') || line.includes('x40') || line.includes('x80') || line.includes('x120') || line.includes('x180')) {
+                    extraLines.push(line.trim());
                 }
             }
-
-            // Add the synergy icon
-            if (synergyIconUrl) {
-                let synergyIcon = document.createElement('img');
-                synergyIcon.src = synergyIconUrl;
-                synergyIcon.alt = synergy;
-                synergyIcon.style.width = '30px'; // Adjust size as needed
-                synergyIcon.style.height = '30px'; // Adjust size as needed
-                synergyIcon.style.marginRight = '10px'; // Add spacing between icon and count
-                synergyHeader.appendChild(synergyIcon);
+            if (extraLines.length > 0) {
+                result += '\n' + extraLines.join('\n');
             }
-
-            // Add the synergy count
-            let synergyCountText = document.createElement('span');
-            synergyCountText.textContent = count;
-            synergyCountText.style.fontWeight = 'bold';
-            synergyHeader.appendChild(synergyCountText);
-
-            synergySection.appendChild(synergyHeader);
-
-            // Add the synergy description
-            let synergyDescription = document.createElement('p');
-            let descriptionText = getSynergyDescription(synergy, count);
-            if (descriptionText) {
-                // Convert newline characters (\n) to <br> tags for the description
-                synergyDescription.innerHTML = descriptionText.replace(/\n/g, '<br>');
-                synergyDescription.className = 'synergy-description';
-                synergyDescription.style.marginBottom = '0';  // Set margin-bottom to 0
-                synergySection.appendChild(synergyDescription);
-            }
-
-            synergyDisplay.appendChild(synergySection);
         }
-    });
+        return result;
+    }
 
-    // Update synergy info
-    let synergyText = Object.entries(synergyCount)
-        .filter(([key, value]) => value > 0)
-        .map(([key, value]) => `${key}: ${value}`)
-        .join(', ');
-    synergyInfo.textContent = synergyText ? `Synergies: ${synergyText}` : 'Synergies: None';
-}
+    
+    // Function to update synergy display
+    function updateSynergies() {
+        let synergyDisplay = document.getElementById('synergy-display');
+        synergyDisplay.innerHTML = ''; // Clear previous content
+        console.log('Synergy Count:', synergyCount);
 
+        Object.entries(synergyCount).forEach(([synergy, count]) => {
+            if (count > 0) {
+                let synergySection = document.createElement('div');
+                synergySection.className = 'synergy-section mb-1 mt-1';
+
+                // Create header for synergy icon and count
+                let synergyHeader = document.createElement('div');
+                synergyHeader.className = 'd-flex align-items-center mb-2';
+
+                // Find an icon URL for the synergy from the first team Pokémon that has it
+                let synergyIconUrl = '';
+                for (let pokemon of currentTeam) {
+                    let pokemonCard = document.querySelector(`.pokemon-card[data-name="${pokemon.name}"]`);
+                    if (pokemonCard && pokemonCard.dataset.synergies.includes(synergy)) {
+                        let synergyIndex = pokemonCard.dataset.synergies.split(',').indexOf(synergy);
+                        synergyIconUrl = pokemonCard.dataset.synergies2.split(',')[synergyIndex].trim();
+                        break;
+                    }
+                }
+
+                if (synergyIconUrl) {
+                    let synergyIcon = document.createElement('img');
+                    synergyIcon.src = synergyIconUrl;
+                    synergyIcon.alt = synergy;
+                    synergyIcon.style.width = '30px';
+                    synergyIcon.style.height = '30px';
+                    synergyIcon.style.marginRight = '10px';
+                    synergyHeader.appendChild(synergyIcon);
+                }
+
+                let synergyCountText = document.createElement('span');
+                synergyCountText.textContent = count;
+                synergyCountText.style.fontWeight = 'bold';
+                synergyHeader.appendChild(synergyCountText);
+                synergySection.appendChild(synergyHeader);
+
+                // Append extra details if toggle is on
+                if (toggleDetailsCheckbox.checked) {
+                    let synergyDescription = document.createElement('p');
+                    let descriptionText = getSynergyDescription(synergy, count);
+                    if (descriptionText) {
+                        synergyDescription.innerHTML = descriptionText.replace(/\n/g, '<br>');
+                        synergyDescription.className = 'synergy-description';
+                        synergyDescription.style.marginBottom = '0';
+                        synergySection.appendChild(synergyDescription);
+                    }
+                }
+
+                synergyDisplay.appendChild(synergySection);
+            }
+        });
+
+        // Update summary text
+        let synergyText = Object.entries(synergyCount)
+            .filter(([key, value]) => value > 0)
+            .map(([key, value]) => `${key}: ${value}`)
+            .join(', ');
+        synergyInfo.textContent = synergyText ? `Synergies: ${synergyText}` : 'Synergies: None';
+    }
+
+    // Listen for toggle changes
+    toggleDetailsCheckbox.addEventListener('change', updateSynergies);
+
+    // Function to add a Pokémon to the team
     function addToTeam(pokemonCard) {
         if (currentTeam.length >= maxTeamSize) {
-            alert('Your team is full! Remove a Pokémon to add another.');
+
             return;
         }
-
         let pokemonName = pokemonCard.dataset.name;
         let pokemonImage = pokemonCard.querySelector('img').src;
         let pokemonSynergies = pokemonCard.dataset.synergies ? pokemonCard.dataset.synergies.split(',') : [];
         let pokemonSynergyPictures = pokemonCard.dataset.synergies2 ? pokemonCard.dataset.synergies2.split(',') : [];
 
-        // Create team slot
+        // Create a team slot for the Pokémon
         let teamSlot = document.createElement('div');
         teamSlot.className = 'team-slot p-2 border m-1 text-center';
         teamSlot.dataset.name = pokemonName;
@@ -287,47 +250,54 @@ function updateSynergies() {
             if (!countedSynergies[pokemonName]) {
                 countedSynergies[pokemonName] = new Set();
             }
-
             if (!countedSynergies[pokemonName].has(s)) {
                 synergyCount[s] = (synergyCount[s] || 0) + 1;
                 countedSynergies[pokemonName].add(s);
             }
-
             let synergyImg = document.createElement('img');
-            synergyImg.src = pokemonSynergyPictures[index].trim(); // Trim in case of extra spaces
-            synergyImg.alt = s.split('/').pop().split('.')[0];
+            synergyImg.src = pokemonSynergyPictures[index].trim();
+            synergyImg.alt = s;
             synergyImg.className = 'synergy-icon';
             synergyContainer.appendChild(synergyImg);
         });
 
         teamSlot.appendChild(img);
-        teamSlot.appendChild(synergyContainer); // Append synergy icons
+        teamSlot.appendChild(synergyContainer);
         teamBuilder.appendChild(teamSlot);
 
+        // Remove Pokémon on click from team
         teamSlot.addEventListener('click', function () {
-            currentTeam = currentTeam.filter(p => p.name !== pokemonName);
-            pokemonCount[pokemonName]--;
-            if (pokemonCount[pokemonName] === 0) {
-                pokemonSynergies.forEach(s => {
-                    if (synergyCount[s]) synergyCount[s]--;
-                });
-                countedSynergies[pokemonName] = new Set();
-            }
-            teamSlot.remove();
-            updateSynergies();
-        });
+        // Remove only one instance of the Pokémon from the team array.
+        let index = currentTeam.findIndex(p => p.name === pokemonName);
+        if (index !== -1) {
+            currentTeam.splice(index, 1);
+        }
+        
+        // Decrement the count for that Pokémon.
+        pokemonCount[pokemonName]--;
+        
+        // Only if there are no more of this Pokémon should we decrement its synergies.
+        if (pokemonCount[pokemonName] === 0) {
+            pokemonSynergies.forEach(s => {
+                if (synergyCount[s]) synergyCount[s]--;
+            });
+            countedSynergies[pokemonName] = new Set();
+        }
+        
+        teamSlot.remove();
+        updateSynergies();
+    });
 
         currentTeam.push({ name: pokemonName });
         pokemonCount[pokemonName] = (pokemonCount[pokemonName] || 0) + 1;
         updateSynergies();
     }
 
+    // Set up event listeners on Pokémon cards (click and drag-drop)
     document.querySelectorAll('.pokemon-card').forEach(card => {
         card.addEventListener('click', function () {
             addToTeam(card);
         });
-
-        // Drag and Drop
         card.setAttribute('draggable', 'true');
         card.addEventListener('dragstart', function (event) {
             event.dataTransfer.setData('text/plain', card.dataset.name);
@@ -337,7 +307,6 @@ function updateSynergies() {
     teamBuilder.addEventListener('dragover', function (event) {
         event.preventDefault();
     });
-
     teamBuilder.addEventListener('drop', function (event) {
         event.preventDefault();
         let pokemonName = event.dataTransfer.getData('text/plain');
@@ -361,7 +330,6 @@ function updateSynergies() {
                                 .filter(checkbox => checkbox.checked)
                                 .map(checkbox => checkbox.dataset.synergy.toLowerCase().trim());
         const sortOrder = sortBy.value;
-
         let pokemonItems = Array.from(pokemonList.getElementsByClassName('pokemon-card'));
 
         pokemonItems.sort((a, b) => {
@@ -369,20 +337,17 @@ function updateSynergies() {
             const rankB = parseInt(b.dataset.rank);
             const nameA = a.dataset.name.toLowerCase();
             const nameB = b.dataset.name.toLowerCase();
-
             if (sortOrder === 'rank-asc') return rankA - rankB;
             if (sortOrder === 'rank-desc') return rankB - rankA;
             if (sortOrder === 'name-asc') return nameA.localeCompare(nameB);
             if (sortOrder === 'name-desc') return nameB.localeCompare(nameA);
             return 0;
         });
-
         pokemonItems.forEach(item => {
             pokemonList.appendChild(item);
         });
-
         pokemonItems.forEach(item => {
-            const pokemonName = item.querySelector('.card-title').textContent.toLowerCase();
+            const pokemonName = item.dataset.name.toLowerCase();
             const alternateNames = (item.dataset.alternateNames || "").toLowerCase().split(',');
             const pokemonRank = item.dataset.rank;
             const pokemonSynergies = (item.dataset.synergies || "")
@@ -390,15 +355,12 @@ function updateSynergies() {
                 .split(',')
                 .map(s => s.trim())
                 .filter(s => s);
-
             const matchesQuery = pokemonName.includes(query) || alternateNames.some(name => name.includes(query));
             const matchesRank = selectedRanks.length === 0 || selectedRanks.includes(pokemonRank);
             const matchesSynergy = selectedSynergies.length === 0 ||
                 selectedSynergies.some(synergy => pokemonSynergies.includes(synergy));
-
             item.style.display = matchesQuery && matchesRank && matchesSynergy ? 'flex' : 'none';
         });
-
         const visibleItems = pokemonItems.filter(item => item.style.display !== 'none');
         const maxHeight = visibleItems.length > 0 ? Math.max(...visibleItems.map(item => item.offsetHeight)) : 0;
         visibleItems.forEach(item => {
@@ -414,18 +376,38 @@ function updateSynergies() {
     sortAndFilterPokemon();
 });
 
+function saveTeam() {
+  // Serialize your current team configuration (e.g., currentTeam array)
+  let teamConfiguration = JSON.stringify(currentTeam);
+
+  fetch('/save-team/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRFToken': '{{ csrf_token }}'
+    },
+    body: 'team_data=' + encodeURIComponent(teamConfiguration)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.slug) {
+      // Update the URL with the new team slug (e.g., using a query parameter)
+      history.pushState(null, '', '?team=' + data.slug);
+    }
+  });
+}
+
 </script>
 
 <style>
     #team-builder {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px; /* Space between team slots */
-        width: 100%; /* Full width of its container */
+        gap: 10px;
+        width: 100%;
     }
-
     .team-slot {
-        width: calc(15% - 10px); /* Three slots per row with gap */
+        width: calc(15% - 10px);
         height: 100px;
         display: flex;
         flex-direction: column;
@@ -435,74 +417,39 @@ function updateSynergies() {
         border-radius: 5px;
         cursor: pointer;
     }
-
     .team-pokemon-img {
         width: 50px;
         height: 50px;
     }
-
     #synergy-display {
         display: flex;
         flex-direction: column;
-        gap: 10px; /* Space between synergy sections */
-        padding-left: 10px; /* Add some spacing between team and synergies */
+        gap: 10px;
+        padding-left: 10px;
     }
-
     .synergy-section {
         display: flex;
         flex-direction: column;
-        gap: 5px; /* Space between synergy title and content */
+        gap: 5px;
     }
-
-    .synergy-title {
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .synergy-pokemon-container {
+    .synergy-icons {
         display: flex;
-        flex-wrap: wrap;
-        gap: 1px; /* Space between Pokémon slots */
-    }
-
-    .pokemon-slot {
-        width: 80px;
-        height: 100px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-wrap: nowrap;
         justify-content: center;
-        background: white;
-        border-radius: 5px;
+        margin-top: 5px;
     }
-
-    .team-pokemon-img,
     .synergy-icon {
-        width: 50px;
-        height: 50px;
+        width: 15px;
+        height: 15px;
+        margin: 2px;
+        max-width: 15px;
     }
-
-.synergy-icons {
-    display: flex;
-    flex-wrap: nowrap; /* Prevent wrapping */
-    justify-content: center;
-    margin-top: 5px;
-}
-
-.synergy-icon {
-    width: 20px;
-    height: 20px;
-    margin: 2px;
-    max-width: 20px; /* Prevent icons from stretching */
-}
-
     @media (max-width: 767px) {
         .team-slot {
-            width: calc(31% - 10px); /* Two slots per row on mobile */
+            width: calc(31% - 10px);
         }
-
         .pokemon-card {
-            width: calc(50% - 10px); /* Two per row on mobile */
+            width: calc(50% - 10px);
         }
     }
 </style>

@@ -64,6 +64,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'synergy_list' %}">Synergies</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'team_builder' %}">Team Builder</a>
+                    </li>
+                    
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="guidesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Guides
@@ -97,8 +101,8 @@
             <div class="col-md-5 mb-3 mb-md-0">
                 <p class="mb-0">Site made by: malz<br>
                     <p class="mb-0"><a href="mailto:info@autopoke.net">Contact</a></p>
-                    Information from:
-                    <a href="https://x.com/ribbonchu?lang=en" target="_blank">Ribbonchu</a>/<a href="https://www.youtube.com/@Joshawott302" target="_blank">Joshawott302</a>
+                    Information from:<br>
+                    <a href="https://x.com/ribbonchu?lang=en" target="_blank">Ribbonchu</a>/<a href="https://www.youtube.com/@Joshawott302" target="_blank">Joshawott302</a>/<a href="https://www.twitch.tv/silentsheepy"target="_blank">Sleepy Sheep</a>
                 </p>
             </div>
             <div class="col-md-2 mb-3 mb-md-0">
@@ -190,8 +194,10 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Adjust Pokémon images to fit within the card */
 .pokemon-card img {
-    max-width: 100%; /* Ensure image fits within card */
-    height: auto;
+
+  margin: 0 auto;
+  max-width: 90%;
+  height: auto;
 }
 
 .pokemon-card .card {
@@ -244,7 +250,7 @@ h1, h2, h3, h4, h5, h6 {
     .tooltip-container {
         display: none;
         position: absolute;
-        top: -55%;
+        top: -25%;
         left: 50%;
         transform: translateX(-50%);
         background-color: rgba(0, 0, 0, 0.7);

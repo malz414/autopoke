@@ -72,48 +72,55 @@
             <!-- Pokémon List -->
             <div id="pokemon-list" class="row">
                 {% for pokemon in pokemon_list %}
-                <div class="col-md-3 col-sm-4 col-6 mb-3 pokemon-card"
-                    data-rank="{{ pokemon.rank }}"
-                    data-name="{{ pokemon.name }}"
-                    data-synergies="{% for s in pokemon.synergies.all %}{{ s.name|lower }}{% if not forloop.last %},{% endif %}{% endfor %}"
-                    data-alternate-names="{{ pokemon.alternate_names }}">
-                    <div class="card text-decoration-none text-reset pokemon-card-container">
-                        <a href="{% url 'pokemon_detail' pokemon.slug %}" class="card-body text-center">
-                            <h5 class="card-title">{{ pokemon.name }}</h5>
-                            {% if pokemon.images.all %}
-                                <img src="{{ pokemon.images.first.image.url }}" alt="{{ pokemon.name }}" class="img-fluid">
-                            {% else %}
-                                <p>No image available</p>
-                            {% endif %}
-                        </a>
-                        <div class="tooltip-container">
-                            <p class="m-0 p-0">Rank: {{ pokemon.rank }}</p>
-                            <p class="m-0 p-0">Synergies:</p>
-                            <div class="synergy-images">
-                                {% for synergy in pokemon.synergies.all %}
-                                    <a href="{% url 'synergy_list' %}?selected_synergy={{ synergy.slug }}"
-                                       class="tooltip-link"
-                                       data-link-type="synergy">
-                                        <img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}" class="tooltip-image" style="width: 35px; height: 35px;">
-                                    </a>
-                                {% empty %}
-                                    <p>No synergies available</p>
-                                {% endfor %}
-                            </div>
-                            <p class="m-0 p-0">Recommended Items:</p>
-                            <div class="item-images">
-                                {% for item in pokemon.recommended_items.all %}
-                                    <a href="{% url 'item_list' %}?item={{ item.slug }}"
-                                       class="tooltip-link"
-                                       data-link-type="item">
-                                        <img src="{{ item.picture.url }}" alt="{{ item.name }}" class="tooltip-image" style="width: 35px; height: 35px;">
-                                    </a>
-                                {% empty %}
-                                    <p>No recommended items available</p>
-                                {% endfor %}
-                            </div>
+                <div class="col-md-3 col-sm-4 col-6 mb-2 pokemon-card"
+                     data-rank="{{ pokemon.rank }}"
+                     data-name="{{ pokemon.name }}"
+                     data-synergies="{% for s in pokemon.synergies.all %}{{ s.name|lower }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                     data-alternate-names="{{ pokemon.alternate_names }}">
+                  <div class="card text-decoration-none text-reset pokemon-card-container ">
+                    <a href="{% url 'pokemon_detail' pokemon.slug %}" class="card-body text-center p-0">
+                      <h5 class="card-title">{{ pokemon.name }}</h5>
+                      {% if pokemon.images.all %}
+                        <img src="{{ pokemon.images.first.image.url }}" alt="{{ pokemon.name }}" class="img-fluid ">
+                      {% else %}
+                        <p>No image available</p>
+                      {% endif %}
+                    </a>
+                    <!-- Synergy Icons Display -->
+                    <div class="synergy-icons text-center mb-1">
+                      {% for synergy in pokemon.synergies.all %}
+                        <img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}" title="{{ synergy.name }}" class="synergy-icon" style="width:35px; height:35px;">
+                      {% endfor %}
+                    </div>
+                    <!-- Tooltip (if needed) -->
+                    <div class="tooltip-container">
+                        <p class="m-0 p-0">Rank: {{ pokemon.rank }}</p>
+                        <!-- <p class="m-0 p-0">Synergies:</p>
+                        <div class="synergy-images">
+                            {% for synergy in pokemon.synergies.all %}
+                                <a href="{% url 'synergy_list' %}?selected_synergy={{ synergy.slug }}"
+                                   class="tooltip-link"
+                                   data-link-type="synergy">
+                                    <img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}" class="tooltip-image" style="width: 35px; height: 35px;">
+                                </a>
+                            {% empty %}
+                                <p>No synergies available</p>
+                            {% endfor %}
+                        </div> -->
+                        <p class="m-0 p-0">Recommended Items:</p>
+                        <div class="item-images">
+                            {% for item in pokemon.recommended_items.all %}
+                                <a href="{% url 'item_list' %}?item={{ item.slug }}"
+                                   class="tooltip-link"
+                                   data-link-type="item">
+                                    <img src="{{ item.picture.url }}" alt="{{ item.name }}" class="tooltip-image" style="width: 35px; height: 35px;">
+                                </a>
+                            {% empty %}
+                                <p>No recommended items available</p>
+                            {% endfor %}
                         </div>
                     </div>
+                  </div>
                 </div>
                 {% empty %}
                 <div class="col-12">No Pokémon found.</div>
@@ -238,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
         display: flex;
         flex-direction: column;
         height: 100%;
-        border-width: 3px !important;
+        border-width: 4px !important;
     }
 
     .pokemon-card img {

@@ -155,7 +155,7 @@ def installation(request):
     return render(request, 'catalogue/installation.html', context)
 
 def tier_list(request):
-    tiers = [("S", 1), ("A", 2), ("B", 3), ("C", 4)]  # Define your tiers with names and numbers
+    tiers = [("Amazing", 1), ("Good", 2), ("Ok", 3), ("Weak", 4)]  # Define your tiers with names and numbers
     pokemon_list = Pokemon.objects.all()  # Retrieve all Pokémon objects
     context = {"tiers": tiers, "pokemon_list": pokemon_list}
     return render(request, "catalogue/tier_list.html", context)
