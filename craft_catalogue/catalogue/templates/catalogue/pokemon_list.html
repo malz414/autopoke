@@ -89,7 +89,12 @@
                     <!-- Synergy Icons Display -->
                     <div class="synergy-icons text-center mb-1">
                       {% for synergy in pokemon.synergies.all %}
+                      <a href="{% url 'synergy_list' %}?selected_synergy={{ synergy.slug }}"
+                      class="tooltip-link"
+                      data-link-type="synergy">
+        
                         <img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}" title="{{ synergy.name }}" class="synergy-icon" style="width:35px; height:35px;">
+                    </a>
                       {% endfor %}
                     </div>
                     <!-- Tooltip (if needed) -->
