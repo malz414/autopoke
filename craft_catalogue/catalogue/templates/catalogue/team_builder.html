@@ -5,7 +5,11 @@
 <div class="container mt-4">
     <div class="row">
         <!-- Toggle Button for Mobile -->
-  
+        <div class="col-12 d-md-none mb-3">
+            <button class="btn btn-outline-dark w-100" type="button" data-bs-toggle="collapse" data-bs-target="#filterOptionsSidebar">
+                Toggle Synergies
+            </button>
+        </div>
         <!-- Filter Sidebar -->
         <div class="col-md-6">
             
@@ -61,7 +65,7 @@
 
 
                 {% for pokemon in pokemon_list %}
-                <div class="col-md-2 col-sm-2 col-2 mb-3 pokemon-card"
+                <div class="col-md-2 col-sm-3 col-2 mb-3 pokemon-card"
                     data-rank="{{ pokemon.rank }}"
                     data-name="{{ pokemon.name }}" 
                     data-synergies="{% for s in pokemon.synergies.all %}{{ s.name }}{% if not forloop.last %},{% endif %}{% endfor %}"
@@ -74,7 +78,7 @@
                             <p>No image available</p>
                         {% endif %}
                         <!-- Synergy Icons Section -->
-                        <div class="synergy-icons mt-2">
+                        <div class="synergy-icons mt-2 px-1">
                             {% for synergy in pokemon.synergies.all %}
                                 <img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}" title="{{ synergy.name }}" class="synergy-icon">
                             {% endfor %}
@@ -437,6 +441,7 @@ function saveTeam() {
         flex-wrap: nowrap;
         justify-content: center;
         margin-top: 5px;
+        margin-left: 5px;
     }
     .synergy-icon {
         width: 15px;
