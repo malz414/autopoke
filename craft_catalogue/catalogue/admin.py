@@ -7,14 +7,17 @@ class PokemonImageInline(admin.TabularInline):
     model = PokemonImage
     extra = 3  # Allows adding 3 new images at once (change as needed)
 
+
 class PokemonAdmin(admin.ModelAdmin):
     inlines = [PokemonImageInline]  # Include inline images
-    list_display = ('name', 'rank', 'tier')
+    list_display = ('name', 'slug', 'rank', 'tier')  # Added 'slug' here
     filter_horizontal = ('recommended_items',)
+    prepopulated_fields = {"slug": ("name",)}  # This auto-fills slug from name
 
     fieldsets = (
         (None, {
-            'fields': ('name', 'alternate_names', 'attack', 'defense', 'special_attack', 'special_defense', 'attack_speed', 'critical_hit_rate', 'critical_hit_damage_bonus_rate', 'rank', 'tier', 'stats_per_level')
+            'fields': ('name', 'slug', 'alternate_names', 'attack', 'defense', 'special_attack', 'special_defense', 
+                       'attack_speed', 'critical_hit_rate', 'critical_hit_damage_bonus_rate', 'rank', 'tier', 'stats_per_level')
         }),
         ('Abilities', {
             'fields': ('ability_1_name', 'ability_1_description', 'ability_1_picture', 'ability_2_name', 'ability_2_description', 'ability_2_picture'),
