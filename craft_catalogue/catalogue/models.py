@@ -60,7 +60,7 @@ class Pokemon(models.Model):
     unite_move_picture = models.ImageField(upload_to='move_pictures/', blank=True, null=True)
 
     recommended_items = models.ManyToManyField('Item', blank=True)
-    recommended_number = models.PositiveSmallIntegerField(choices=[(1, '1'), (2, '2')], default=1)
+    recommended_number = models.PositiveSmallIntegerField(choices=[(1, '1'), (2, '2'),  (3, '3')], default=1)
 
     alternate_names = models.TextField(blank=True, default="")
 

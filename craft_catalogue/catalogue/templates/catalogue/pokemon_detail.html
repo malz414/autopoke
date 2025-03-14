@@ -25,6 +25,13 @@
     <!-- Abilities Section -->
     <div class="col-12 col-md-6">
         <h3 class="text-center">Moves</h3>
+                {% if pokemon.recommended_number == 1 %}
+                <p class="text-center text-success"><strong>    <img src="{{ pokemon.ability_1_picture.url }}" alt="{{ pokemon.ability_1_name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;"> {{pokemon.ability_1_name}} is recommended in most situations.</strong></p>
+            {% elif pokemon.recommended_number == 2 %}
+                <p class="text-center text-success"><strong>    <img src="{{ pokemon.ability_2_picture.url }}" alt="{{ pokemon.ability_2_name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;">{{pokemon.ability_2_name}} is recommended in most situations.</strong></p>
+            {% elif pokemon.recommended_number == 3 %}
+                <p class="text-center text-warning"><strong>The moves are too situational to recommend either.</strong></p>
+            {% endif %}
         <ul class="list-group">
             {% if pokemon.ability_1_name %}
                 <li class="list-group-item d-flex align-items-center">
