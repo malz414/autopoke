@@ -16,12 +16,10 @@ Including another URLconf
 """
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from django.conf import settings
 from django.contrib.auth import views as auth_views
-from django.conf.urls.static import static
-from django.views.generic import TemplateView
 from .views import logout_view
 from . import views
+from .views import ads_txt
 from .views import item_list, item_detail
 
 urlpatterns = [
@@ -37,8 +35,7 @@ urlpatterns = [
     path('patch_notes/', views.patch_notes, name='patch_notes'),
     path('mechanics/', views.mechanics, name='mechanics'),
      path('team_builder/', views.team_builder, name='team_builder'),
-    path('ads.txt', TemplateView.as_view(template_name="ads.txt", content_type="text/plain")),
-
+    path("ads.txt", ads_txt),
 
     
     # HTML view for synergy details (if needed elsewhere)
@@ -50,4 +47,4 @@ urlpatterns = [
     path('items/<slug:slug>/', item_detail, name='item_detail'),
     path('synergies/', views.synergy_list, name='synergy_list'),
 
-] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+]

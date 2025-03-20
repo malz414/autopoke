@@ -7,6 +7,7 @@ from .forms import CustomAuthenticationForm  # If using the custom form
 from .models import Pokemon, Item, Synergy
 from django.db.models import Q  # For filtering
 from django.http import JsonResponse
+from django.http import HttpResponse
 
 def search_pokemon(request):
     query = request.GET.get('q', '').lower()
@@ -68,7 +69,9 @@ def team_builder(request):
         'rank_filter': rank_filter,
         'synergy_filter': synergy_filter
     })
-
+def ads_txt(request):
+    content = "google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0"
+    return HttpResponse(content, content_type="text/plain")
 
 #TODo Should change ranks to be ints
 def pokemon_list_view(request):
