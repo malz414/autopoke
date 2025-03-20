@@ -70,7 +70,7 @@ def team_builder(request):
         'synergy_filter': synergy_filter
     })
 def ads_txt(request):
-    content = "google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0"
+    content = "google.com, pub-3195983389027090, DIRECT, f08c47fec0942fa0"
     return HttpResponse(content, content_type="text/plain")
 
 #TODo Should change ranks to be ints
