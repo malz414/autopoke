@@ -80,7 +80,9 @@ def pokemon_list_view(request):
     return render(request, 'pokemon_list.html', {'pokemon_list': pokemon_list})
 
 def patch_notes(request):
-    return render(request,'catalogue/patch_notes.html') 
+    pokemon_list = Pokemon.objects.all()  # Retrieve all Pokémon objects
+    context = {"pokemon_list": pokemon_list}
+    return render(request,'catalogue/patch_notes.html', context) 
 
 def mechanics(request):
     return render(request,'catalogue/mechanics.html') 

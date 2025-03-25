@@ -7,7 +7,103 @@
     <div class="row">
         <div class="col-md-12">
             <h2 class="text-center mb-4">Hologrid Battle (Beta) Adjustments</h2>
+
             
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Patch Notes - March 26</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="text-center">New Additions</h5>
+                    <h6 class="text-center">Virtual Points (Currency): 5 Pokémon Projections</h6>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                           <a href="../pokemon/mewtwo/"> <h5>Mewtwo</h5>
+                        </div>
+                     
+                     
+                        <div class="card-body">
+                            <div class="row">
+                            <div class="col-6 mb-3">
+                                {% for pokemon in pokemon_list %}
+                                    {% if pokemon.name|lower == "mewtwo" %}
+                                        {% if pokemon.images.all %}
+                                        <div class="mewtwo-image-container">
+                              
+                                            <img src="{{ pokemon.images.first.image.url }}" alt="{{ pokemon.name }}" class="img-fluid">
+                                        </div>
+                                        {% else %}
+                                        <p>No image available for Mewtwo</p>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                </a> 
+                                </div>
+                      
+                                <div class="col-6 mb-3">
+                                    <p><strong>Virtual Points:</strong> 5</p>
+                                    <p><strong>Synergy:</strong> <a href="../synergies/?selected_synergy=psychic"> Psychic</a>,  <a href="../synergies/?selected_synergy=universal">Universal</a></p></p>
+                                    <ul>
+                                        <li><strong>Move 1: Future Sight</strong> - Pulls the farthest opponent to itself, dealing damage after a short delay.</li>
+                                        <li><strong>Move 2: Psystrike</strong> - Sends a psychic wave at a designated opponent, dealing damage while granting itself damage reduction. Afterwards, deals damage and knocks up the target and nearby opponents, while also reducing their damage until the round ends. If the opponent is defeated, this move is immediately used again.</li>
+                                        <li><strong>Unite Move: Teleport</strong> - Mega Evolves into Mega Mewtwo X, increasing attack speed, defense, and special defense, as well as attack power. Periodically teleports to a random opponent to attack.</li>
+                                    </ul>
+                                    </div>
+                       
+                        </div>
+
+                    </div>
+                    </div>
+               
+
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <a href="../pokemon/miraidon/"> <h5>Miraidon</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    {% for pokemon in pokemon_list %}
+                                        {% if pokemon.name|lower == "miraidon" %}
+                                            {% if pokemon.images.all %}
+                                            <div class="mewtwo-image-container">
+                                                <img src="{{ pokemon.images.first.image.url }}" alt="{{ pokemon.name }}" class="img-fluid">
+                                            </div>
+                                            {% else %}
+                                            <p>No image available for Mewtwo</p>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% endfor %}
+                                    </a>
+                                    </div>
+                                   
+                                    <div class="col-6 mb-3">    
+                            <p><strong>Virtual Points:</strong> 5</p>
+                            <p><strong>Synergy:</strong>  <a href="../synergies/?selected_synergy=electric">Electric</a>,  <a href="../synergies/?selected_synergy=dragon">Dragon</a>,  <a href="../synergies/?selected_synergy=burst">Burst</a></p>
+                            <ul>
+                                <li><strong>Move 1: Thunder</strong> - Summons a thundercloud that slowly moves toward the nearest opponent. Periodically strikes lightning, dealing special attack damage and reducing the opponent's special defense.</li>
+                                <li><strong>Move 2: Charge Beam</strong> - Continuously deals special attack damage to opponents in a rectangular area ahead.</li>
+                                <li><strong>Unite Move: Draco Meteor</strong> - Summons five consecutive meteors, dealing special attack damage and knocking up opponents.</li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="card mb-3">
+                    <div class="card-header">
+                    <h5>New Held Items</h5>
+                    </div>
+                    <div class="card-body">
+                    <ul>
+                        
+                        <li>  <a href="../items/?selected_item=metronome"> <strong>Metronome</strong> </a> - Each time an allied Pokémon projection uses a basic move, its move damage increases.</li>
+                        <li>  <a href="../items/?selected_item=rage-mask"> <strong>Rage Mask</strong></a> - When an allied Pokémon projection is defeated, its own damage and attack speed increase.</li>
+                    </ul>
+                    </div>
+                    </div>
+                </div>
+            </div>
+   
             <div class="card mb-4">
                 <div class="card-header">
                     <h4>Patch Notes - March 5</h4>
