@@ -104,25 +104,31 @@ def item_list(request):
 
 def item_detail(request, slug):
     item = get_object_or_404(Item, slug=slug)
-    recommended_pokemon = Pokemon.objects.filter(recommended_items=item)
+    
+    # Separate recommendations by type
+    regular_recommendations = Pokemon.objects.filter(recommended_items=item)
+    sheep_recommendations = Pokemon.objects.filter(recommended_itemsSheep=item)
+    sheep_bold_recommendations = Pokemon.objects.filter(recommended_itemsSheepBold=item)
 
-    # Prepare the data for the recommended Pokémon
-    recommended_pokemon_data = [
-        {
-            "name": pokemon.name,
-            "slug": pokemon.slug,
-            "image_url": pokemon.images.first().image.url if pokemon.images.exists() else ""
-        }
-        for pokemon in recommended_pokemon
-    ]
+    # Helper function to build data
+    def build_data(queryset):
+        return [
+            {
+                "name": pokemon.name,
+                "slug": pokemon.slug,
+                "image_url": pokemon.images.first().image.url if pokemon.images.exists() else ""
+            }
+            for pokemon in queryset
+        ]
 
     return JsonResponse({
         "name": item.name,
         "description": item.description,
         "image_url": item.picture.url if item.picture else "",
-        "recommended_pokemon": recommended_pokemon_data
+        "regular_recommendations": build_data(regular_recommendations),
+        "sheep_recommendations": build_data(sheep_recommendations),
+        "sheep_bold_recommendations": build_data(sheep_bold_recommendations)
     })
-
 
 
 def synergy_detail_json(request, slug):
@@ -148,7 +154,6 @@ def synergy_detail(request, slug):
     return render(request, 'catalogue/synergy_detail.html', {'synergy': synergy})
 
 def installation(request):
-    # You can pass any context data to the template if needed
     context = {
         'title': 'Installation Guide',
         'steps': [
@@ -160,8 +165,8 @@ def installation(request):
     return render(request, 'catalogue/installation.html', context)
 
 def tier_list(request):
-    tiers = [("Amazing", 1), ("Good", 2), ("Ok", 3), ("Weak", 4)]  # Define your tiers with names and numbers
-    pokemon_list = Pokemon.objects.all()  # Retrieve all Pokémon objects
+    tiers = [("Amazing", 1), ("Good", 2), ("Ok", 3), ("Weak", 4)] 
+    pokemon_list = Pokemon.objects.all()  
     context = {"tiers": tiers, "pokemon_list": pokemon_list}
     return render(request, "catalogue/tier_list.html", context)
 
@@ -170,7 +175,7 @@ def tier_list(request):
 
 
 def synergy_list(request):
-    query = request.GET.get('q', '')  # Get search query
+    query = request.GET.get('q', '') 
     synergy_list = Synergy.objects.all()
     print("Synergies:", list(synergy_list)) 
 

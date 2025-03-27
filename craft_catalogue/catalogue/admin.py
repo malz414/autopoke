@@ -10,8 +10,9 @@ class PokemonImageInline(admin.TabularInline):
 
 class PokemonAdmin(admin.ModelAdmin):
     inlines = [PokemonImageInline]  # Include inline images
-    list_display = ('name', 'slug', 'rank', 'tier')  # Added 'slug' here
-    filter_horizontal = ('recommended_items',)
+    list_display = ('name', 'slug', 'rank', 'tier', 'recommended_number')  # Added 'slug' here
+    filter_horizontal = ('recommended_items', 'recommended_itemsSheep', 'recommended_itemsSheepBold')
+   
     prepopulated_fields = {"slug": ("name",)}  # This auto-fills slug from name
 
     fieldsets = (
@@ -26,7 +27,7 @@ class PokemonAdmin(admin.ModelAdmin):
             'fields': ('unite_move_name', 'unite_move_description', 'unite_move_activation', 'unite_move_picture'),
         }),
         ('Recommended Items', {
-            'fields': ('recommended_items', 'recommended_number'),
+            'fields': ('recommended_items', 'recommended_itemsSheep', 'recommended_itemsSheepBold', 'recommended_number'),
         }),
         ('HP/MP', {
             'fields': ('hp', 'mp'),

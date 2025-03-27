@@ -104,7 +104,7 @@
             </div>
             <div class="col-6 col-md-3">
                 <div class="list-group">
-                    <div class="list-group-item">Critical Hit Bonus: {{ pokemon.critical_hit_damage_bonus_rate }}%</div>
+                    <div class="list-group-item">Critical Hit Bonus: {{ pokemon.critical_hit_damage_bonus_rate }}%<recommended_number/div>
                 </div>
             </div>
         </div>
@@ -112,44 +112,128 @@
 </div>
 
 <!-- Synergies and Recommended Items Section -->
-<div class="row mt-4">
-    <div class="col-12 col-md-6">
-        <h2 class="text-center">Synergies</h2>
-        <ul class="list-group">
-            {% for synergy in pokemon.synergies.all %}
-                <li class="list-group-item d-flex">
-                    <a href="{% url 'synergy_list' %}?selected_synergy={{ synergy.slug }}" class="text-decoration-none text-reset d-flex align-items-center">
+
+
+    <!-- Synergies Section -->
+    <div class="row mt-4">
+        <div class="col-12 col-md-6">
+            <h3 class="text-center">
+                Synergies
+                <button class="btn btn-sm btn-outline-primary toggle-all-descriptions" data-target="synergy-description">Show All Details</button>
+            </h3>
+            <ul class="list-group">
+                {% for synergy in pokemon.synergies.all %}
+                    <li class="list-group-item d-flex align-items-center">
                         <img src="{{ synergy.picture.url }}" alt="{{ synergy.name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;">
                         <div>
-                          {{ synergy.descriptions|linebreaksbr }}
+                            <p class="synergy-description d-none">{{ synergy.descriptions|linebreaksbr }}</p>
                         </div>
-                    </a>
-                </li>
-            {% empty %}
-                <li class="list-group-item">No synergies found for this Pokémon.</li>
-            {% endfor %}
-        </ul>
-    </div>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">No synergies found for this Pokémon.</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <div class="col-12 col-md-6">
-        <h2 class="text-center">Recommended Items</h2>
-        <ul class="list-group">
-            {% for item in pokemon.recommended_items.all %}
-                <li class="list-group-item d-flex">
-                    <a href="{% url 'item_list' %}?selected_item={{ item.slug }}" class="text-decoration-none text-reset d-flex align-items-center">
-                        <img src="{{ item.picture.url }}" alt="{{ item.name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;">
-                        <div>
-                            <strong>{{ item.name }}</strong><br> {{ item.description|linebreaksbr }}
+        <!-- Recommended Items Section -->
+        <div class="col-12 col-md-6">
+            <h3 class="text-center">
+                Recommended Items
+                <button class="btn btn-sm btn-outline-primary toggle-all-descriptions" data-target="item-description">Show All Details</button>
+            </h3>
+            <div class="accordion" id="recommendedItemsAccordion">
+                <!-- silentsheepy's Recommended Items -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sheepyItems">
+                            silentsheepy's Recommended Items
+                        </button>
+                    </h2>
+                    <p class="text-center mb-0 mt-2">All Pokemon are assumed to be 2-star with ult and optimal builds. Items with * next to them are highly recommended.</p>
+                    <div id="sheepyItems" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            <ul class="list-group">
+                                {% for item in pokemon.recommended_itemsSheepBold.all %}
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <img src="{{ item.picture.url }}" alt="{{ item.name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;">
+                                        <div>
+                                            <strong>{{ item.name }}*</strong>
+                                            <p class="item-description d-none">{{ item.description|linebreaksbr }}</p>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                                {% for item in pokemon.recommended_itemsSheep.all %}
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <img src="{{ item.picture.url }}" alt="{{ item.name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;">
+                                        <div>
+                                            <strong>{{ item.name }}</strong>
+                                            <p class="item-description d-none">{{ item.description|linebreaksbr }}</p>
+                                        </div>
+                                    </li>
+                                {% empty %}
+                                    <li class="list-group-item">No recommended items found for this Pokémon.</li>
+                                {% endfor %}
+                            </ul>
                         </div>
-                    </a>
-                </li>
-            {% empty %}
-                <li class="list-group-item">No recommended items found for this Pokémon.</li>
-            {% endfor %}
-        </ul>
-    </div>
+                    </div>
+                </div>
+
+                <!-- In-Game Recommended Items -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#gameItems">
+                            In-Game Recommended Items
+                        </button>
+                    </h2>
+                    <div id="gameItems" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <ul class="list-group">
+                                {% for item in pokemon.recommended_items.all %}
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <img src="{{ item.picture.url }}" alt="{{ item.name }}" class="img-fluid" style="width: 50px; height: 50px; margin-right: 10px;">
+                                        <div>
+                                            <strong>{{ item.name }}</strong>
+                                            <p class="item-description d-none">{{ item.description|linebreaksbr }}</p>
+                                        </div>
+                                    </li>
+                                {% empty %}
+                                    <li class="list-group-item">No recommended items found for this Pokémon.</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End of accordion -->
+        </div>
+ 
+
+
+
 </div>
-</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Toggle all descriptions at once
+        document.querySelectorAll(".toggle-all-descriptions").forEach(button => {
+            button.addEventListener("click", function() {
+                let targetClass = this.getAttribute("data-target");
+                let descriptions = document.querySelectorAll("." + targetClass);
+                let show = this.textContent.includes("Show");
+
+                descriptions.forEach(desc => {
+                    if (show) {
+                        desc.classList.remove("d-none");
+                    } else {
+                        desc.classList.add("d-none");
+                    }
+                });
+
+                this.textContent = show ? "Hide All Details" : "Show All Details";
+            });
+        });
+    });
+</script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const mainImage = document.getElementById("main-image");
@@ -162,5 +246,6 @@
         });
     });
 </script>
+
 
 {% endblock %}

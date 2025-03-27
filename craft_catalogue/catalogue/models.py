@@ -59,8 +59,25 @@ class Pokemon(models.Model):
     unite_move_activation = models.TextField(blank=True, default="")
     unite_move_picture = models.ImageField(upload_to='move_pictures/', blank=True, null=True)
 
-    recommended_items = models.ManyToManyField('Item', blank=True)
-    recommended_number = models.PositiveSmallIntegerField(choices=[(1, '1'), (2, '2'),  (3, '3')], default=1)
+    recommended_items = models.ManyToManyField(
+    'Item',
+    blank=True,
+    related_name='pokemon_recommended'  # Unique name
+    )
+    recommended_number = models.PositiveSmallIntegerField(choices=[(1, '1'), (2, '2'), (3, '3')], default=1)
+
+    recommended_itemsSheep = models.ManyToManyField(
+        'Item',
+        blank=True,
+        related_name='pokemon_recommended_sheep'  # Unique name
+    )
+
+    recommended_itemsSheepBold = models.ManyToManyField(
+        'Item',
+        blank=True,
+        related_name='pokemon_recommended_sheep_bold'  # Unique name
+    )
+    
 
     alternate_names = models.TextField(blank=True, default="")
 
