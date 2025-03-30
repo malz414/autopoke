@@ -122,13 +122,19 @@ def item_detail(request, slug):
         ]
 
     return JsonResponse({
-        "name": item.name,
-        "description": item.description,
-        "image_url": item.picture.url if item.picture else "",
-        "regular_recommendations": build_data(regular_recommendations),
-        "sheep_recommendations": build_data(sheep_recommendations),
-        "sheep_bold_recommendations": build_data(sheep_bold_recommendations)
-    })
+    "name": item.name,
+    "description": item.description,
+    "image_url": item.picture.url if item.picture else "",
+    "recommended_pokemon": (
+        list(build_data(regular_recommendations)) +
+        list(build_data(sheep_recommendations)) +
+        list(build_data(sheep_bold_recommendations))
+    ),
+    "regular_recommendations": build_data(regular_recommendations),
+    "sheep_recommendations": build_data(sheep_recommendations),
+    "sheep_bold_recommendations": build_data(sheep_bold_recommendations)
+})
+
 
 
 def synergy_detail_json(request, slug):

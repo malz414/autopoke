@@ -73,11 +73,14 @@ function loadItemDetails(slug) {
     fetch(`/items/${slug}/`)
         .then(response => response.json())
         .then(data => {
-            let pokemonList = '';
-            if (data.recommended_pokemon.length > 0) {
-                pokemonList = '<h5>Recommended for:</h5><div class="row">';
-                data.recommended_pokemon.forEach(pokemon => {
-                    pokemonList += `
+            let sheepBoldList = '';
+            let sheepList = '';
+            let regularList = '';
+
+            if (data.sheep_bold_recommendations.length > 0) {
+                sheepBoldList = '<h5><a href="https://www.twitch.tv/silentsheepy"target="_blank">silentsheepy</a> Strong Recommendations:</h5><div class="row">';
+                data.sheep_bold_recommendations.forEach(pokemon => {
+                    sheepBoldList += `
                         <div class="col-md-2 col-sm-4 col-4 mb-3">
                             <a href="/pokemon/${pokemon.slug}/">
                                 <img src="${pokemon.image_url}" alt="${pokemon.name}" class="img-fluid">
@@ -86,19 +89,50 @@ function loadItemDetails(slug) {
                         </div>
                     `;
                 });
-                pokemonList += '</div>';
+                sheepBoldList += '</div>';
+            }
+
+            if (data.sheep_recommendations.length > 0) {
+                sheepList = '<h5><a href="https://www.twitch.tv/silentsheepy"target="_blank">silentsheepy</a>  Recommendations:</h5><div class="row">';
+                data.sheep_recommendations.forEach(pokemon => {
+                    sheepList += `
+                        <div class="col-md-2 col-sm-4 col-4 mb-3">
+                            <a href="/pokemon/${pokemon.slug}/">
+                                <img src="${pokemon.image_url}" alt="${pokemon.name}" class="img-fluid">
+                                <p>${pokemon.name}</p>
+                            </a>
+                        </div>
+                    `;
+                });
+                sheepList += '</div>';
+            }
+
+            if (data.regular_recommendations.length > 0) {
+                regularList = '<h5>In-Game Recommendations:</h5><div class="row">';
+                data.regular_recommendations.forEach(pokemon => {
+                    regularList += `
+                        <div class="col-md-2 col-sm-4 col-4 mb-3">
+                            <a href="/pokemon/${pokemon.slug}/">
+                                <img src="${pokemon.image_url}" alt="${pokemon.name}" class="img-fluid">
+                                <p>${pokemon.name}</p>
+                            </a>
+                        </div>
+                    `;
+                });
+                regularList += '</div>';
             }
 
             document.getElementById("item-details").innerHTML = `
                 <h5>${data.name}</h5>
                 <img src="${data.image_url}" alt="${data.name}" width="100">
                 <p>${data.description}</p>
-                ${pokemonList}
+                ${sheepBoldList}
+                ${sheepList}
+                ${regularList}
             `;
         })
         .catch(error => console.error('Error fetching item details:', error));
 }
-
 
 </script>
 
