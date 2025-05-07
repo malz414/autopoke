@@ -35,6 +35,7 @@ urlpatterns = [
     path('patch_notes/', views.patch_notes, name='patch_notes'),
     path('mechanics/', views.mechanics, name='mechanics'),
      path('team_builder/', views.team_builder, name='team_builder'),
+        path('sheepy_guide/', views.sheepy_guide, name='sheepy_guide'),
     path("ads.txt", ads_txt),
 
     

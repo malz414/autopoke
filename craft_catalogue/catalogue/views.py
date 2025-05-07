@@ -34,7 +34,7 @@ def filter_pokemon(queryset, query):
 
 def pokemon_list(request):
     query = request.GET.get('q', '')  
-    pokemon_list = filter_pokemon(Pokemon.objects.all(), query)
+    pokemon_list = filter_pokemon(Pokemon.objects.filter(rank__in=[1, 2, 3, 4, 5]), query)
     synergies = Synergy.objects.all()
 
     return render(request, 'catalogue/pokemon_list.html', {
@@ -52,7 +52,7 @@ def team_builder(request):
     synergy_filter = request.GET.get('synergy', '')  
 
     # Start with all Pokémon and synergies
-    pokemon_list = filter_pokemon(Pokemon.objects.all(), query)
+    pokemon_list = filter_pokemon(Pokemon.objects.filter(rank__in=[1, 2, 3, 4, 5]), query)
     synergy_list = Synergy.objects.all()
 
     # Apply additional filters
@@ -87,6 +87,9 @@ def patch_notes(request):
 def mechanics(request):
     return render(request,'catalogue/mechanics.html') 
 
+
+def sheepy_guide(request):
+    return render(request,'catalogue/sheepy_guide.html') 
 
 
 def item_list(request):
